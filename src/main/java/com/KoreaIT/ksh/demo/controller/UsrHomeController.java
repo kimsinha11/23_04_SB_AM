@@ -62,44 +62,44 @@ public class UsrHomeController {
 		map.put("용준나이", 28);
 		return map;
 	}
-	
-
-	@RequestMapping("/usr/home/getList")
-	@ResponseBody
-	public List<String> getList() {
-		List<String> list = new ArrayList<>();
-		list.add("동연나이");
-		list.add("용준나이");
-		list.add("신하나이");
-		return list;
-	}
-	
-	@RequestMapping("/usr/home/getArticle")
-	@ResponseBody
-	public Article getArticle() {
-		Article article = new Article(1, "제목1", "내용1");
-		
-		return article;
-	}
-	@RequestMapping("/usr/home/getArticles")
-	@ResponseBody
-	public List<Article> getArticles() {
-		Article article1 = new Article(1, "제목1", "내용1");
-		Article article2 = new Article(2, "제목2", "내용2");
-		
-		List<Article> articles = new ArrayList<>();
-		articles.add(article1);
-		articles.add(article2);
-		return articles;
-	}
-
-} 
-@Data
-@AllArgsConstructor
-class Article {
-
-	private int id;
-	private String title;
-	private String body;
-	
 }
+
+//	@RequestMapping("/usr/home/getList")
+//	@ResponseBody
+//	public List<String> getList() {
+//		List<String> list = new ArrayList<>();
+//		list.add("동연나이");
+//		list.add("용준나이");
+//		list.add("신하나이");
+//		return list;
+//	}
+//	
+//	@RequestMapping("/usr/home/getArticle")
+//	@ResponseBody
+//	public Article getArticle() {
+//		Article article = new Article(1, "제목1", "내용1");
+//		
+//		return article;
+//	}
+//	@RequestMapping("/usr/home/getArticles")
+//	@ResponseBody
+//	public List<Article> getArticles() {
+//		Article article1 = new Article(1, "제목1", "내용1");
+//		Article article2 = new Article(2, "제목2", "내용2");
+//		
+//		List<Article> articles = new ArrayList<>();
+//		articles.add(article1);
+//		articles.add(article2);
+//		return articles;
+//	}
+//
+//} 
+//@Data
+//@AllArgsConstructor
+//class Article {
+//
+//	private int id;
+//	private String title;
+//	private String body;
+//	
+//}
