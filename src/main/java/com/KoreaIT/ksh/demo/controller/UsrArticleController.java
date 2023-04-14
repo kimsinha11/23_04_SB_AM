@@ -13,89 +13,99 @@ import com.KoreaIT.ksh.demo.vo.Article;
 public class UsrArticleController {
 	List<Article> articles;
 	int lastArticleId;
-	
+
+	// 생성자메서드
 	public UsrArticleController() {
 		lastArticleId = 0;
 		articles = new ArrayList<>();
 		makeTestData();
 	}
-	
+
+	// 서비스메서드
 	private void makeTestData() {
-		for(int i=1; i<=10; i++) {
+		for (int i = 1; i <= 10; i++) {
 			String title = "제목" + i;
 			String body = "내용" + i;
-			
+
 			writeArticle(title, body);
 		}
 	}
 
 	public Article writeArticle(String title, String body) {
-		int id = lastArticleId+1;
+		int id = lastArticleId + 1;
 		Article article = new Article(id, title, body);
-		
+
 		articles.add(article);
 		lastArticleId++;
 		return article;
 	}
-	
+
+	private Article getArticleById(int id) {
+		for (int i = 0; i < articles.size(); i++) {
+			Article article = articles.get(i);
+
+			if (article.getId() == id) {
+				return article;
+			}
+		}
+
+		return null;
+	}
+
+	private void deleteArticle(int id) {
+		Article article = getArticleById(id);
+		articles.remove(article);
+	}
+
+	private void modifyArticle(int id, String title, String body) {
+		Article article = getArticleById(id);
+		article.setTitle(title);
+		article.setBody(body);
+	}
+
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody
 	public String doDelete(int id) {
-		
-		Article foundArticle = null;
-		
-		for(int i=0; i<articles.size(); i++) {
-			Article article = articles.get(i);
-			
-			if(article.getId()==id) {
-				foundArticle = article;
-			}
-		}
-		
-		if(foundArticle == null) {
+
+		Article article = getArticleById(id);
+
+		if (article == null) {
 			return id + "번글은 존재하지 않습니다.";
 		} else {
-			articles.remove(foundArticle);
+			deleteArticle(id);
 			return id + "번글이 삭제되었습니다.";
 		}
 	}
+
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
 	public String doModify(int id, String title, String body) {
-		
-		Article foundArticle = null;
-		
-		for(int i=0; i<articles.size(); i++) {
-			Article article = articles.get(i);
-			
-			if(article.getId()==id) {
-				foundArticle = article;
-			}
-		}
-		
-		if(foundArticle == null) {
+
+		Article article = getArticleById(id);
+
+		if (article == null) {
 			return id + "번글은 존재하지 않습니다.";
-		} else {
-			foundArticle.setTitle(title);
-			foundArticle.setBody(body);
-			return id + "번글이 수정되었습니다." + foundArticle;
 		}
+		modifyArticle(id, title, body);
+
+		return id + "번글이 수정되었습니다." + article;
+
 	}
+
 	@RequestMapping("/usr/article/doAdd")
 	@ResponseBody
 	public Article doAdd(String title, String body) {
-		
+
 		Article article = writeArticle(title, body);
-		
+
 		return article;
 	}
-	
+
 	@RequestMapping("/usr/article/getArticles")
 	@ResponseBody
 	public List<Article> getArticles() {
-		
+
 		return articles;
 	}
-	
-	
-} 
+
+}
