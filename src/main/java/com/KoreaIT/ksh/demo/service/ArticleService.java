@@ -1,6 +1,5 @@
 package com.KoreaIT.ksh.demo.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +14,8 @@ public class ArticleService {
 	@Autowired // 자동연결
 	private ArticleRepository articleRepository;
 
-	public ArticleService() {
-		articleRepository = new ArticleRepository();
-		articleRepository.makeTestData();
+	public ArticleService(ArticleRepository articleRepository) {
+		this.articleRepository = articleRepository;
 	}
 
 	public Article getArticleById(int id) {
