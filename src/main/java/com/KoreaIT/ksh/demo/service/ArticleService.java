@@ -36,7 +36,7 @@ public class ArticleService {
 	}
 
 	public void modifyArticle(int id, String title, String body) {
-
+		
 		articleRepository.modifyArticle(id, title, body);
 	}
 

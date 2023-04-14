@@ -50,10 +50,11 @@ public class UsrArticleController {
 	public Object doModify(int id, String title, String body) {
 
 		Article article = articleService.getArticleById(id);
-
+	
 		if (article == null) {
 			return id + "번글은 존재하지 않습니다.";
 		}
+	
 		articleService.modifyArticle(id, title, body);
 
 		return id + "번글이 수정되었습니다." + article;
