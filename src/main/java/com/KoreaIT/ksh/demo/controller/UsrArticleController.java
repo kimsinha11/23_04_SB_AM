@@ -1,6 +1,5 @@
 package com.KoreaIT.ksh.demo.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.KoreaIT.ksh.demo.service.ArticleService;
-
 import com.KoreaIT.ksh.demo.vo.Article;
 
 @Controller
@@ -17,12 +15,6 @@ public class UsrArticleController {
 	
 	@Autowired // 자동연결 
 	private ArticleService articleService;
-	
-	
-	
-	private void getDetail(int id) {
-		Article article = articleService.getArticleById(id);
-	}
 	
 	
 	@RequestMapping("/usr/article/doDelete")
@@ -81,7 +73,7 @@ public class UsrArticleController {
 	@ResponseBody
 	public List<Article> getArticles() {
 
-		return articleService.articles;
+		return articleService.getArticles();
 	}
 
 }
