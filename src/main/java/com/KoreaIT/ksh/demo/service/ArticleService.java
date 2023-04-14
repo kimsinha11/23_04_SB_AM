@@ -22,9 +22,12 @@ public class ArticleService {
 		return articleRepository.getArticleById(id);
 	}
 
-	public Article writeArticle(String title, String body) {
+	public int writeArticle(String title, String body) {
 
-		return articleRepository.writeArticle(title, body);
+		int id = articleRepository.getLastInsertId();
+		articleRepository.writeArticle(title, body);
+		return articleRepository.getLastInsertId();
+		
 	}
 
 	public void deleteArticle(int id) {
