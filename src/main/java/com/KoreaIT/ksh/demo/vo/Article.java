@@ -1,7 +1,5 @@
 package com.KoreaIT.ksh.demo.vo;
 
-import org.springframework.stereotype.Controller;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
