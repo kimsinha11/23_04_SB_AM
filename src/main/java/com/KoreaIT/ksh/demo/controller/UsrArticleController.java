@@ -3,6 +3,7 @@ package com.KoreaIT.ksh.demo.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.tomcat.util.codec.binary.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -63,6 +64,11 @@ public class UsrArticleController {
 		article.setBody(body);
 	}
 
+	private void getDetail(int id) {
+		Article article = getArticleById(id);
+	}
+	
+	
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody
 	public String doDelete(int id) {
@@ -77,9 +83,23 @@ public class UsrArticleController {
 		}
 	}
 
+	@RequestMapping("/usr/article/getArticle")
+	@ResponseBody
+	public Object getArticle(int id) {
+
+		Article article = getArticleById(id);
+
+		if (article == null) {
+			return id + "번글은 존재하지 않습니다.";
+		}
+		
+		return article;
+	}
+
+
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
-	public String doModify(int id, String title, String body) {
+	public Object doModify(int id, String title, String body) {
 
 		Article article = getArticleById(id);
 
