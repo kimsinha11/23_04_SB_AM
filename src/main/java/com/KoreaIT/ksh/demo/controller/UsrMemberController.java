@@ -1,6 +1,5 @@
 package com.KoreaIT.ksh.demo.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,10 +45,10 @@ public class UsrMemberController {
 		int id = memberService.doJoin(loginId, loginPw, name, nickname, email, cellphoneNum);
 
 		if(id==-1) {
-			return "이미 사용중인 아이디입니다.";
+			return Ut.f("이미 사용중인 아이디(%s)입니다.", loginId);
 		}
 		if(id==-2) {
-			return "존재하는 계정입니다.";
+			return Ut.f("이미 사용중인 이름(%s), 이메일(%s) 입니다.", name, email);
 		}
 		
 		Member member = memberService.getMemberById(id);
@@ -72,6 +71,21 @@ public class UsrMemberController {
 		return "로그인 성공!";
 	}
 	
+//	@RequestMapping("/usr/member/doLeave")
+//	@ResponseBody
+//	public String doLeave(String loginId, String loginPw) {
+//
+//		Member member = memberService.doLogin(loginId, loginPw);
+//
+//		if (member == null) {
+//			return loginId + "는 존재하지 않는 아이디입니다.";
+//		}
+//		if (member.getLoginPw().equals(loginPw)==false) {
+//			return "비밀번호가 틀렸습니다.";
+//		}
+//		return "로그인 성공!";
+//	}
+//	
 	@RequestMapping("/usr/member/memberProfile")
 	@ResponseBody
 	public Object getMemberById(int id) {
