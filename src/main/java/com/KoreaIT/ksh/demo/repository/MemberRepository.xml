@@ -7,7 +7,8 @@
 	<insert id="doJoin">
 		INSERT INTO `member`
 		SET regDate = NOW(),
-		updateDate= NOW(),
+		updateDate=
+		NOW(),
 		loginId =#{loginId},
 		loginPw =#{loginPw},
 		`name`= #{name},
@@ -23,10 +24,25 @@
 		= #{id}
 	</select>
 
+	<select id="getMemberByLoginId" resultType="Member">
+		SELECT *
+		FROM `member`
+		WHERE loginId
+		= #{loginId}
+	</select>
+
+	<select id="doLogin" resultType="Member">
+		SELECT *
+		FROM `member`
+		WHERE
+		loginId
+		= #{loginId}
+	</select>
+
 	<select id="getLastInsertId" resultType="int">
 		SELECT LAST_INSERT_ID()
 	</select>
-	
+
 	<select id="getMembers" resultType="Member">
 		SELECT *
 		FROM member

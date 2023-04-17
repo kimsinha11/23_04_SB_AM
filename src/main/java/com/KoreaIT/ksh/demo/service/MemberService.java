@@ -20,12 +20,20 @@ public class MemberService {
 	}
 
 
-	public int doJoin(LocalDateTime regDate, LocalDateTime updateDate, String loginId, String loginPw, String name, String nickname, String email, String cellphoneNum) {
-
-		int id = memberRepository.getLastInsertId();
-		memberRepository.doJoin(regDate, updateDate, loginId, loginPw, name, nickname, email, cellphoneNum);
+	public int doJoin(String loginId, String loginPw, String name, String nickname, String email, String cellphoneNum) {
+		Member existmember = getMemberByLoginId(loginId);
+		if(existmember != null) {
+			return -1;
+		}
+		memberRepository.doJoin(loginId, loginPw, name, nickname, email, cellphoneNum);
 		return memberRepository.getLastInsertId();
 		
+	}
+
+
+	private Member getMemberByLoginId(String loginId) {
+		// TODO Auto-generated method stub
+		return memberRepository.getMemberByLoginId(loginId);
 	}
 
 
@@ -37,6 +45,17 @@ public class MemberService {
 	public List<Member> getMembers() {
 		return memberRepository.getMembers();
 	}
+
+
+	public Member doLogin(String loginId, String loginPw) {
+		return memberRepository.doLogin(loginId, loginPw);
+		
+	}
+
+
+
+
+
 
 
 }
