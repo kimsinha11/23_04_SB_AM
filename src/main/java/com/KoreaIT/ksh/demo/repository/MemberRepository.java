@@ -1,7 +1,6 @@
 package com.KoreaIT.ksh.demo.repository;
 
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -22,6 +21,8 @@ public interface MemberRepository {
 	public Member doLogin(String loginId, String loginPw);
 
 	public Member getMemberByLoginId(String loginId);
+
+	public Member getMemberByNamemail(String name, String email);
 
 
 

@@ -31,6 +31,14 @@
 		= #{loginId}
 	</select>
 
+<select id="getMemberByNamemail" resultType="Member">
+		SELECT *
+		FROM `member`
+		WHERE `name`
+		= #{name} AND
+		email = #{email} 
+	</select>
+
 	<select id="doLogin" resultType="Member">
 		SELECT *
 		FROM `member`

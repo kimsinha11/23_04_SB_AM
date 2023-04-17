@@ -21,9 +21,15 @@ public class MemberService {
 
 
 	public int doJoin(String loginId, String loginPw, String name, String nickname, String email, String cellphoneNum) {
+		// 로그인 아이디 중복체크
 		Member existmember = getMemberByLoginId(loginId);
 		if(existmember != null) {
 			return -1;
+		}
+		// 이름+이메일 동시체크
+		Member existmember2 = getMemberByNamemail(name, email);
+		if(existmember2 != null) {
+			return -2;
 		}
 		memberRepository.doJoin(loginId, loginPw, name, nickname, email, cellphoneNum);
 		return memberRepository.getLastInsertId();
@@ -31,8 +37,14 @@ public class MemberService {
 	}
 
 
+	private Member getMemberByNamemail(String name, String email) {
+	
+		return memberRepository.getMemberByNamemail(name, email);
+	}
+
+
 	private Member getMemberByLoginId(String loginId) {
-		// TODO Auto-generated method stub
+
 		return memberRepository.getMemberByLoginId(loginId);
 	}
 
