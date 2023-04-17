@@ -1,5 +1,6 @@
 package com.KoreaIT.ksh.demo.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +20,10 @@ public class MemberService {
 	}
 
 
-	public int doJoin(String loginId, String loginPw, String name, String nickname, String email, String cellphoneNum) {
+	public int doJoin(LocalDateTime regDate, LocalDateTime updateDate, String loginId, String loginPw, String name, String nickname, String email, String cellphoneNum) {
 
 		int id = memberRepository.getLastInsertId();
-		memberRepository.doJoin(loginId, loginPw, name, nickname, email, cellphoneNum);
+		memberRepository.doJoin(regDate, updateDate, loginId, loginPw, name, nickname, email, cellphoneNum);
 		return memberRepository.getLastInsertId();
 		
 	}
@@ -36,5 +37,6 @@ public class MemberService {
 	public List<Member> getMembers() {
 		return memberRepository.getMembers();
 	}
+
 
 }

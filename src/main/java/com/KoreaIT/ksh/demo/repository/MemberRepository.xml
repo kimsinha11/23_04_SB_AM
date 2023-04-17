@@ -6,7 +6,9 @@
 
 	<insert id="doJoin">
 		INSERT INTO `member`
-		SET loginId =#{loginId},
+		SET regDate = NOW(),
+		updateDate= NOW(),
+		loginId =#{loginId},
 		loginPw =#{loginPw},
 		`name`= #{name},
 		nickname =#{nickname},
