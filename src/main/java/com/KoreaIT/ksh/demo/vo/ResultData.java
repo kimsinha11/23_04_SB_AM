@@ -11,6 +11,11 @@ public class ResultData {
 	@Getter
 	private Object data1;
 	
+	//오버로딩
+	public static ResultData from(String resultCode, String msg) {
+		return from(resultCode, msg, null);
+	}
+	
 	public static ResultData from(String resultCode, String msg, Object data1) {
 		ResultData rd = new ResultData();
 		rd.resultCode = resultCode;
@@ -19,4 +24,13 @@ public class ResultData {
 		
 		return rd;
 	}
+	
+	public boolean isSuccess() {
+		return resultCode.startsWith("S-");
+	}
+	
+	public boolean isFail( ) {
+		return isSuccess() == false;
+	}
+
 }
