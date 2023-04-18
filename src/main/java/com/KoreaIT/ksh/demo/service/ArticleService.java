@@ -42,8 +42,8 @@ public class ArticleService {
 		articleRepository.modifyArticle(id, title, body);
 	}
 
-	public List<Article> getArticles() {
-		return articleRepository.getArticles();
-	}
+	public ResultData getArticles() {
+		return ResultData.from("S-1", Ut.f("게시물 리스트"), articleRepository.getArticles());
+	} 
 
 }

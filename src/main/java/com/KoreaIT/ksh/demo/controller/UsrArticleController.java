@@ -83,7 +83,8 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/getArticles")
 	@ResponseBody
 	public ResultData getArticles() {
-		return ResultData.from("S-1", Ut.f("게시물 리스트"), articleService.getArticles());
+		ResultData getArticlesRd = articleService.getArticles();
+		return ResultData.from(getArticlesRd.getResultCode(), getArticlesRd.getMsg(), getArticlesRd.getData1());
 //		return articleService.getArticles();
 	}
 
