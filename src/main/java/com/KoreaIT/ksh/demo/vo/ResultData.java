@@ -34,4 +34,8 @@ public class ResultData {
 		return isSuccess() == false;
 	}
 
+	public static ResultData newData(ResultData doJoinRd, Object newData) {
+		return from(doJoinRd.getResultCode(), doJoinRd.getMsg(), newData);
+	}
+
 }

@@ -1,13 +1,14 @@
 package com.KoreaIT.ksh.demo.service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.KoreaIT.ksh.demo.repository.MemberRepository;
+import com.KoreaIT.ksh.demo.util.Ut;
 import com.KoreaIT.ksh.demo.vo.Member;
+import com.KoreaIT.ksh.demo.vo.ResultData;
 
 @Service
 public class MemberService {
@@ -20,20 +21,21 @@ public class MemberService {
 	}
 
 
-	public int doJoin(String loginId, String loginPw, String name, String nickname, String email, String cellphoneNum) {
+	public ResultData doJoin(String loginId, String loginPw, String name, String nickname, String email, String cellphoneNum) {
 		// 로그인 아이디 중복체크
 		Member existmember = getMemberByLoginId(loginId);
 		if(existmember != null) {
-			return -1;
+			return ResultData.from("F-7", Ut.f("이미 사용중인 아이디(%s)입니다.", loginId));
 		}
 		// 이름+이메일 동시체크
 		Member existmember2 = getMemberByNamemail(name, email);
 		if(existmember2 != null) {
-			return -2;
+			return ResultData.from("F-8", Ut.f("이미 사용중인 이름(%s), 이메일(%s) 입니다.",  name, email));
 		}
 		memberRepository.doJoin(loginId, loginPw, name, nickname, email, cellphoneNum);
-		return memberRepository.getLastInsertId();
+		int id = memberRepository.getLastInsertId();
 		
+		return ResultData.from("S-1", "회원가입이 완료되었습니다.", id);
 	}
 
 
