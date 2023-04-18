@@ -1,5 +1,6 @@
 package com.KoreaIT.ksh.demo.service;
 
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,37 +14,37 @@ import com.KoreaIT.ksh.demo.vo.ResultData;
 @Service
 public class ArticleService {
 
-	@Autowired // 자동연결
+	@Autowired
 	private ArticleRepository articleRepository;
 
 	public ArticleService(ArticleRepository articleRepository) {
 		this.articleRepository = articleRepository;
 	}
 
-	public Article getArticleById(int id) {
-		return articleRepository.getArticleById(id);
-	}
+	// 서비스 메서드
+	public ResultData<Integer> writeArticle(String title, String body) {
 
-	public ResultData writeArticle(String title, String body) {
+		articleRepository.writeArticle(title, body);
 
 		int id = articleRepository.getLastInsertId();
-		articleRepository.writeArticle(title, body);
-//		return articleRepository.getLastInsertId();
-		return ResultData.from("S-1", Ut.f("%d번 글이 생성되었습니다.", id),id);
+
+		return ResultData.from("S-1", Ut.f("%d번 글이 생성되었습니다", id), id);
+
+	}
+
+	public Article getArticle(int id) {
+		return articleRepository.getArticle(id);
 	}
 
 	public void deleteArticle(int id) {
-
 		articleRepository.deleteArticle(id);
 	}
 
 	public void modifyArticle(int id, String title, String body) {
-		
 		articleRepository.modifyArticle(id, title, body);
 	}
 
-	public ResultData getArticles() {
-		return ResultData.from("S-1", Ut.f("게시물 리스트"), articleRepository.getArticles());
-	} 
-
+	public List<Article> articles() {
+		return articleRepository.getArticles();
+	}
 }

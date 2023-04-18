@@ -1,6 +1,7 @@
 package com.KoreaIT.ksh.demo.controller;
 
-import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,94 +15,99 @@ import com.KoreaIT.ksh.demo.vo.ResultData;
 
 @Controller
 public class UsrMemberController {
-	
-	@Autowired // 자동연결 
+
+	@Autowired
 	private MemberService memberService;
-	
-
-	@RequestMapping("/usr/member/doJoin")
-	@ResponseBody
-	public ResultData doJoin(String loginId, String loginPw, String name, String nickname, String email, String cellphoneNum) {
-
-		
-		if(Ut.empty(loginId)) {
-			return ResultData.from("F-1", Ut.f("아이디를 입력해주세요"));
-		}
-		if(Ut.empty(loginPw)) {
-			return ResultData.from("F-2", Ut.f("비밀번호를 입력해주세요"));
-		}
-		if(Ut.empty(name)) {
-			return ResultData.from("F-3", Ut.f("이름을 입력해주세요"));
-		}
-		if(Ut.empty(nickname)) {
-			return ResultData.from("F-4", Ut.f("닉네임을 입력해주세요"));
-		}
-		if(Ut.empty(email)) {
-			return ResultData.from("F-5", Ut.f("이메일을 입력해주세요"));
-		}
-		if(Ut.empty(cellphoneNum)) {
-			return ResultData.from("F-6", Ut.f("전화번호를 입력해주세요"));
-		}
-		
-		ResultData doJoinRd = memberService.doJoin(loginId, loginPw, name, nickname, email, cellphoneNum);
-
-		if(doJoinRd.isFail()) {
-			return doJoinRd;
-		}
-		
-		Member member = memberService.getMemberById((int) doJoinRd.getData1());
-
-		return ResultData.newData(doJoinRd, member);
-	}
 
 	@RequestMapping("/usr/member/doLogin")
 	@ResponseBody
-	public String doLogin(String loginId, String loginPw) {
+	public ResultData<Member> doLogin(HttpSession httpsession, String loginId, String loginPw) {
 
-		Member member = memberService.doLogin(loginId, loginPw);
+		boolean isLogined = false;
+
+		if (httpsession.getAttribute("loginedMemberId") != null) {
+			isLogined = true;
+		}
+
+		if (isLogined) {
+			return ResultData.from("F-5", "이미 로그인 상태입니다");
+		}
+
+		if (Ut.empty(loginId)) {
+			return ResultData.from("F-1", "아이디를 입력해주세요");
+		}
+		if (Ut.empty(loginPw)) {
+			return ResultData.from("F-2", "비밀번호를 입력해주세요");
+		}
+
+		Member member = memberService.getMemberByLoginId(loginId);
 
 		if (member == null) {
-			return loginId + "는 존재하지 않는 아이디입니다.";
+			return ResultData.from("F-3", Ut.f("%s는 존재하지 않는 아이디입니다", loginId));
 		}
-		if (member.getLoginPw().equals(loginPw)==false) {
-			return "비밀번호가 틀렸습니다.";
+
+		if (member.getLoginPw().equals(loginPw) == false) {
+			return ResultData.from("F-4", Ut.f("비밀번호가 일치하지 않습니다"));
 		}
-		return "로그인 성공!";
+
+		httpsession.setAttribute("loginedMemberId", member.getId());
+
+		return ResultData.from("S-1", Ut.f("%s님 환영합니다", member.getName()));
 	}
 	
-//	@RequestMapping("/usr/member/doLeave")
-//	@ResponseBody
-//	public String doLeave(String loginId, String loginPw) {
-//
-//		Member member = memberService.doLogin(loginId, loginPw);
-//
-//		if (member == null) {
-//			return loginId + "는 존재하지 않는 아이디입니다.";
-//		}
-//		if (member.getLoginPw().equals(loginPw)==false) {
-//			return "비밀번호가 틀렸습니다.";
-//		}
-//		return "로그인 성공!";
-//	}
-//	
-	@RequestMapping("/usr/member/memberProfile")
+	@RequestMapping("/usr/member/doLogout")
 	@ResponseBody
-	public Object getMemberById(int id) {
+	public ResultData doLogout(HttpSession httpsession) {
 
-		Member member = memberService.getMemberById(id);
+		boolean isLogined = false;
 
-		if (member == null) {
-			return id + "번 회원은 존재하지 않습니다.";
+		if (httpsession.getAttribute("loginedMemberId") == null) {
+			isLogined = true;
 		}
+
+		if (isLogined) {
+			return ResultData.from("F-1", "이미 로그아웃 상태입니다");
+		}
+
 		
-		return member;
-	}
-	
-	@RequestMapping("/usr/member/getMembers")
-	@ResponseBody
-	public List<Member> getMembers() {
+		httpsession.removeAttribute("loginedMemberId");
 
-		return memberService.getMembers();
+		return ResultData.from("S-1", "로그아웃 되었습니다");
+	}
+
+	@RequestMapping("/usr/member/doJoin")
+	@ResponseBody
+	public ResultData<Member> doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum,
+			String email) {
+
+		if (Ut.empty(loginId)) {
+			return ResultData.from("F-1", "아이디를 입력해주세요");
+		}
+		if (Ut.empty(loginPw)) {
+			return ResultData.from("F-2", "비밀번호를 입력해주세요");
+		}
+		if (Ut.empty(name)) {
+			return ResultData.from("F-3", "이름을 입력해주세요");
+		}
+		if (Ut.empty(nickname)) {
+			return ResultData.from("F-4", "닉네임을 입력해주세요");
+		}
+		if (Ut.empty(cellphoneNum)) {
+			return ResultData.from("F-5", "전화번호를 입력해주세요");
+		}
+		if (Ut.empty(email)) {
+			return ResultData.from("F-6", "이메일을 입력해주세요");
+		}
+
+		ResultData<Integer> joinRd = memberService.join(loginId, loginPw, name, nickname, cellphoneNum, email);
+
+		if (joinRd.isFail()) {
+			return (ResultData) joinRd;
+		}
+
+		Member member = memberService.getMemberById(joinRd.getData1());
+
+		return ResultData.newData(joinRd, member);
 	}
 
 }

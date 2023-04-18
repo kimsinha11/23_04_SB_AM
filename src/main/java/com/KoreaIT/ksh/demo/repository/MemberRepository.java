@@ -1,31 +1,53 @@
 package com.KoreaIT.ksh.demo.repository;
 
 
-import java.util.List;
-
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 import com.KoreaIT.ksh.demo.vo.Member;
 
 @Mapper
 public interface MemberRepository {
 
-	public int doJoin(String loginId, String loginPw, String name, String nickname, String email, String cellphoneNum);
+	@Insert("""
+			INSERT INTO `member`
+			SET regDate = NOW(),
+			updateDate = NOW(),
+			loginId = #{loginId},
+			loginPw = #{loginPw},
+			`name` = #{name},
+			nickname = #{nickname},
+			cellphoneNum = #{cellphoneNum},
+			email = #{email}
+			""")
+	void join(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email);
 
-	public int getLastInsertId();
+	@Select("""
+			SELECT *
+			FROM `member`
+			WHERE id = #{id}
+			""")
+	Member getMemberById(int id);
 
-	public Member getMemberById(int id);
+	@Select("""
+			SELECT LAST_INSERT_ID()
+			""")
+	int getLastInsertId();
 
-	public List<Member> getMembers();
+	@Select("""
+			SELECT *
+			FROM `member`
+			WHERE loginId = #{loginId}
+			""")
+	Member getMemberByLoginId(String loginId);
 
-	public Member doLogin(String loginId, String loginPw);
-
-	public Member getMemberByLoginId(String loginId);
-
-	public Member getMemberByNamemail(String name, String email);
-
-
-
-
+	@Select("""
+			SELECT *
+			FROM `member`
+			WHERE name = #{name}
+			AND email = #{email}
+			""")
+	Member getMemberByNameAndEmail(String name, String email);
 
 }

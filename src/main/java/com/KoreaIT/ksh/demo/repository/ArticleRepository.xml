@@ -4,6 +4,7 @@
 <mapper
 	namespace="com.KoreaIT.ksh.demo.repository.ArticleRepository">
 
+
 	<insert id="writeArticle">
 		INSERT INTO article
 		SET regDate = NOW(),
@@ -20,7 +21,7 @@
 		id DESC
 	</select>
 
-	<select id="getArticleById" resultType="Article">
+	<select id="getArticle" resultType="Article">
 		SELECT *
 		FROM article
 		WHERE id
@@ -36,12 +37,11 @@
 	<update id="modifyArticle">
 		UPDATE article
 		<set>
-		<if test="title != null and title != ''">title = #{title},</if>
-		<if test="body != null and body != ''">`body` = #{body},</if>
-		updateDate= NOW()
+			<if test="title != null and title != ''">title = #{title},</if>
+			<if test="body != null and body != ''">`body` = #{body},</if>
+			updateDate= NOW()
 		</set>
 		WHERE id = #{id}
-		
 	</update>
 
 	<select id="getLastInsertId" resultType="int">

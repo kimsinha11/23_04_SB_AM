@@ -1,6 +1,5 @@
 package com.KoreaIT.ksh.demo.repository;
 
-
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -14,7 +13,7 @@ public interface ArticleRepository {
 
 	public List<Article> getArticles();
 
-	public Article getArticleById(int id);
+	public Article getArticle(int id);
 
 	public void deleteArticle(int id);
 
