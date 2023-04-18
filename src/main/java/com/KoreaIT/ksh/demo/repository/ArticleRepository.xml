@@ -11,7 +11,8 @@
 		updateDate=
 		NOW(),
 		title =#{title},
-		`body`= #{body}
+		`body`= #{body},
+		memberId = #{memberId}
 	</insert>
 
 	<select id="getArticles" resultType="Article">
