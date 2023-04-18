@@ -20,20 +20,21 @@ public class UsrArticleController {
 
 	@Autowired
 	private ArticleService articleService;
-	private int memberId;
+
 	// 액션메서드
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
 	public ResultData<Integer> doModify(HttpSession httpsession, int id, String title, String body) {
 		
 		boolean isLogined = false;
-
-		if (httpsession.getAttribute("loginedMemberId") == null) {
+	
+		if (httpsession.getAttribute("loginedMemberId") != null) {
 			isLogined = true;
 		}
-		if (isLogined) {
-			return ResultData.from("F-1", "로그인 후 이용해주세요");
+		if (isLogined == false) {
+			return ResultData.from("F-A", "로그인 후 이용해주세요");
 		}
+		
 		
 		Article article = articleService.getArticle(id);
 		if (article == null) {
@@ -51,12 +52,14 @@ public class UsrArticleController {
 		
 		boolean isLogined = false;
 
-		if (httpsession.getAttribute("loginedMemberId") == null) {
+		if (httpsession.getAttribute("loginedMemberId") != null) {
 			isLogined = true;
+
 		}
-		if (isLogined) {
-			return ResultData.from("F-1", "로그인 후 이용해주세요");
+		if (isLogined == false) {
+			return ResultData.from("F-A", "로그인 후 이용해주세요");
 		}
+		
 		
 		Article article = articleService.getArticle(id);
 		if (article == null) {
@@ -73,12 +76,14 @@ public class UsrArticleController {
 	public ResultData<Article> doWrite(HttpSession httpsession,String title, String body) {
 		
 		boolean isLogined = false;
-
-		if (httpsession.getAttribute("loginedMemberId") == null) {
+		int loginedMemberId =0 ;
+		
+		if (httpsession.getAttribute("loginedMemberId") != null) {
 			isLogined = true;
+			loginedMemberId = (int) httpsession.getAttribute("loginedMemberId");
 		}
-		if (isLogined) {
-			return ResultData.from("F-1", "로그인 후 이용해주세요");
+		if (isLogined == false) {
+			return ResultData.from("F-A", "로그인 후 이용해주세요");
 		}
 		
 		if (Ut.empty(title)) {
@@ -87,9 +92,8 @@ public class UsrArticleController {
 		if (Ut.empty(body)) {
 			return ResultData.from("F-2", "내용을 입력해주세요");
 		}
-		
-		memberId = (int) httpsession.getAttribute("loginedMemberId");
-		ResultData<Integer> writeArticleRd = articleService.writeArticle(title, body, memberId);
+
+		ResultData<Integer> writeArticleRd = articleService.writeArticle(title, body, loginedMemberId);
 
 		int id = (int) writeArticleRd.getData1();
 
