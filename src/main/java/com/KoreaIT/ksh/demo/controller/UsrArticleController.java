@@ -1,11 +1,15 @@
 package com.KoreaIT.ksh.demo.controller;
 
+import java.sql.Connection;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -20,7 +24,7 @@ public class UsrArticleController {
 
 	@Autowired
 	private ArticleService articleService;
-
+	
 	// 액션메서드
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
@@ -112,11 +116,12 @@ public class UsrArticleController {
 	}
 
 	@RequestMapping("/usr/article/getArticles")
-	@ResponseBody
-	public ResultData<List<Article>> getArticles() {
+	public String getArticles(Model model) {
 		List<Article> articles = articleService.articles();
-
-		return ResultData.from("S-1", "Article List", "List<Article>", articles);
+		
+		model.addAttribute("articles", articles);
+		
+		return "usr/article/list";
 	}
 
 	@RequestMapping("/usr/article/getArticle")
