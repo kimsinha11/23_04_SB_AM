@@ -16,7 +16,7 @@
 	</insert>
 
 	<select id="getArticles" resultType="Article">
-		SELECT article.id, article.regDate, article.updateDate, article.title, article.body, member.name AS 'name'
+		SELECT article.id, article.regDate, article.updateDate, article.title, article.body, article.memberId, member.name AS 'name'
 		FROM article
 		INNER JOIN `member`
 		ON article.memberId = member.id
@@ -25,7 +25,7 @@
 	</select>
 
 	<select id="getArticle" resultType="Article">
-		SELECT article.id, article.regDate, article.updateDate, article.title, article.body, member.name AS 'name'
+		SELECT article.id, article.regDate, article.updateDate, article.title, article.body, article.memberId, member.name AS 'name'
 		FROM article
 		INNER JOIN `member`
 		ON article.memberId = member.id

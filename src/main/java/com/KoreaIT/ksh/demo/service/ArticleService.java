@@ -59,4 +59,5 @@ public class ArticleService {
 		}
 		return ResultData.from("S-1", "수정 가능");
 	}
+
 }

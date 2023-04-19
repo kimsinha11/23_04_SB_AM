@@ -25,7 +25,6 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
 	public ResultData<Integer> doModify(HttpSession httpSession, int id, String title, String body) {
-		
 		boolean isLogined = false;
 		int loginedMemberId = 0;
 
@@ -50,6 +49,7 @@ public class UsrArticleController {
 		}
 
 		return articleService.modifyArticle(id, title, body);
+
 	}
 
 	@RequestMapping("/usr/article/doDelete")
