@@ -1,10 +1,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<c:set var = "pageTitle" value = "ARTICLE LIST"/>
-<%@ include file="../common/head.jspf" %>
+<c:set var="pageTitle" value="ARTICLE LIST" />
+<%@ include file="../common/head.jspf"%>
 
-		<table style="border-collaspe: collaspe; width: 700px; background-color: pink;" border=2px>
+<section class="mt-10 text-xl">
+<div class="mx-auto">
+		<table class="table-box-type-1" style="border-collaspe: collaspe; width: 700px; background-color: pink;" border=2px>
 				<thead>
 						<tr>
 								<th>번호</th>
@@ -26,5 +28,7 @@
 						</c:forEach>
 				</tbody>
 		</table>
+		</div>
+</section>
 
 

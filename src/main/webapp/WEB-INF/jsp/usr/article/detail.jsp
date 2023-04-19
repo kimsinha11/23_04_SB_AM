@@ -4,7 +4,9 @@
 <c:set var = "pageTitle" value = "DETAIL"/>
 <%@ include file="../common/head.jspf" %>
 
-		<table style="border-collaspe: collaspe; width:700px; background-color: lightblue;" border = 2px>
+<section class="mt-10 text-xl">
+<div class="mx-auto">
+		<table class="table-box-type-1" style="border-collaspe: collaspe; width:700px; background-color: lightblue;" border = 2px>
 				<thead>
 						<tr>
 								<th>번호</th>
@@ -27,6 +29,5 @@
 				</tbody>
 		</table>
 
-
-</body>
-</html>
+</div>
+</section>
