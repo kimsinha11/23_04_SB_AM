@@ -16,16 +16,20 @@
 	</insert>
 
 	<select id="getArticles" resultType="Article">
-		SELECT *
+		SELECT article.id, article.regDate, article.updateDate, article.title, article.body, member.name AS 'name'
 		FROM article
+		INNER JOIN `member`
+		ON article.memberId = member.id
 		ORDER BY
 		id DESC
 	</select>
 
 	<select id="getArticle" resultType="Article">
-		SELECT *
+		SELECT article.id, article.regDate, article.updateDate, article.title, article.body, member.name AS 'name'
 		FROM article
-		WHERE id
+		INNER JOIN `member`
+		ON article.memberId = member.id
+		WHERE article.id
 		= #{id}
 	</select>
 
