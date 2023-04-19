@@ -102,8 +102,8 @@ public class UsrArticleController {
 
 		Article article = articleService.getArticle(id);
 		
-		model.addAttribute("articles", articles);
-		
+		model.addAttribute("title", title);
+		model.addAttribute("body", body);
 		return "usr/article/write";
 	}
 

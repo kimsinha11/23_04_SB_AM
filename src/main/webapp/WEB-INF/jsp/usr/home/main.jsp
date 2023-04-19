@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>메인 페이지</title>
+<link rel="stylesheet" href="/resource/common.css" />
 </head>
 <body>
 

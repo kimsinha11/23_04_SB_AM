@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>게시물 상세보기</title>
+<link rel="stylesheet" href="/resource/common.css" />
 </head>
 <body>
 
