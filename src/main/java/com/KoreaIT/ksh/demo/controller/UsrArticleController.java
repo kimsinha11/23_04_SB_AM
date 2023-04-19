@@ -85,7 +85,6 @@ public class UsrArticleController {
 	}
 
 	@RequestMapping("/usr/article/doWrite")
-	@ResponseBody
 	public String doWrite(Model model, HttpSession httpSession,String title, String body) {
 		
 		boolean isLogined = false;
@@ -102,9 +101,7 @@ public class UsrArticleController {
 
 		Article article = articleService.getArticle(id);
 		
-		model.addAttribute("title", title);
-		model.addAttribute("body", body);
-		return "usr/article/write";
+		return id + "번글이 작성되었습니다.";
 	}
 
 	@RequestMapping("/usr/article/list")

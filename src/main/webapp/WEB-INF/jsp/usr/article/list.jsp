@@ -1,24 +1,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>게시물 리스트</title>
-<link rel="stylesheet" href="/resource/common.css" />
-<script src="/resource/common.js" defer="defer"></script>
-</head>
-<body>
+<c:set var = "pageTitle" value = "ARTICLE LIST"/>
+<%@ include file="../common/head.jspf" %>
 
-		<h1>게시물 리스트</h1>
-		<div style="border: 1px solid black; display: inline-block; width: 10%; text-align: center;">
-				<a style="display: block;" href="../home/main">메인페이지로 이동</a>
-		</div>
-		<div style="border: 1px solid black; display: inline-block; width: 10%; text-align: center;">
-				<a style="display: block;" href="/usr/article/doWrite">글쓰기</a>
-		</div>
-		<hr />
 		<table style="border-collaspe: collaspe; width: 700px; background-color: pink;" border=2px>
 				<thead>
 						<tr>
@@ -43,5 +28,3 @@
 		</table>
 
 
-</body>
-</html>
