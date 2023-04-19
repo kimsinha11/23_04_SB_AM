@@ -86,7 +86,7 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody
-	public ResultData<Article> doWrite(HttpSession httpSession,String title, String body) {
+	public String doWrite(Model model, HttpSession httpSession,String title, String body) {
 		
 		boolean isLogined = false;
 		int loginedMemberId =0 ;
@@ -95,28 +95,20 @@ public class UsrArticleController {
 			isLogined = true;
 			loginedMemberId = (int) httpSession.getAttribute("loginedMemberId");
 		}
-		if (isLogined == false) {
-			return ResultData.from("F-A", "로그인 후 이용해주세요");
-		}
 		
-		if (Ut.empty(title)) {
-			return ResultData.from("F-1", "제목을 입력해주세요");
-		}
-		if (Ut.empty(body)) {
-			return ResultData.from("F-2", "내용을 입력해주세요");
-		}
-
 		ResultData<Integer> writeArticleRd = articleService.writeArticle(title, body, loginedMemberId);
 
 		int id = (int) writeArticleRd.getData1();
 
 		Article article = articleService.getArticle(id);
-
-		return ResultData.newData(writeArticleRd, "article", article);
+		
+		model.addAttribute("articles", articles);
+		
+		return "usr/article/write";
 	}
 
-	@RequestMapping("/usr/article/getArticles")
-	public String getArticles(Model model) {
+	@RequestMapping("/usr/article/list")
+	public String showList(Model model) {
 		List<Article> articles = articleService.articles();
 		
 		model.addAttribute("articles", articles);
@@ -124,17 +116,18 @@ public class UsrArticleController {
 		return "usr/article/list";
 	}
 
-	@RequestMapping("/usr/article/getArticle")
-	@ResponseBody
-	public ResultData<Article> getArticle(int id) {
+	@RequestMapping("/usr/article/detail")
+	public String getArticle(Model model, int id) {
 
 		Article article = articleService.getArticle(id);
 
 		if (article == null) {
-			return ResultData.from("F-1", Ut.f("%d번 게시물은 존재하지 않습니다", id));
+			return id +"번 게시물은 존재하지 않습니다.";
 		}
-
-		return ResultData.from("S-1", Ut.f("%d번 게시물입니다", id), "id", article);
+		
+		model.addAttribute("article",article);
+		
+		return "usr/article/detail";
 	}
 
 }

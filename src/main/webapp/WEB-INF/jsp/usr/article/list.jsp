@@ -10,9 +10,14 @@
 <body>
 
 		<h1>게시물 리스트</h1>
-
+		<div style="border: 1px solid black; display: inline-block; width: 10%; text-align: center;">
+				<a style="display: block;" href="../home/main">메인페이지로 이동</a>
+		</div>
+		<div style="border: 1px solid black; display: inline-block; width: 10%; text-align: center;">
+				<a style="display: block;" href="/usr/article/write">글쓰기</a>
+		</div>
 		<hr />
-		<table border="3">
+		<table style="border-collaspe: collaspe; width: 700px; background-color: pink;" border=2px>
 				<thead>
 						<tr>
 								<th>번호</th>
@@ -22,13 +27,15 @@
 						</tr>
 				</thead>
 				<tbody>
-				<c:forEach var="article" items="${articles }">
-						<tr>
-								<td>${article.id }</td>
-								<td>${article.regDate.substring(0,10) }</td>
-								<td><a href="getArticle?id=${article.id }">${article.title }</a></td>
-								<td>${article.name }</td>
-						</tr>
+						<c:forEach var="article" items="${articles }">
+								<tr>
+										<th>${article.id }</th>
+										<th>${article.regDate.substring(0,10) }</th>
+										<th>
+												<a href="detail?id=${article.id }">${article.title }</a>
+										</th>
+										<th>${article.name }</th>
+								</tr>
 						</c:forEach>
 				</tbody>
 		</table>
