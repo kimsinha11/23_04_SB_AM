@@ -20,59 +20,54 @@ public class UsrArticleController {
 
 	@Autowired
 	private ArticleService articleService;
-
+	
+	
 	@RequestMapping("/usr/article/modify")
 
-public String modify(Model model, HttpSession httpsession, int id, String title, String body) {
+	public String modify(Model model, HttpSession httpSession, int id, String title, String body) {
+		articleService.loginCheck(httpSession);
 		
-		boolean isLogined = false;
-	
-		if (httpsession.getAttribute("loginedMemberId") != null) {
-			isLogined = true;
-		}
-	
+
 		Article article = articleService.getArticle(id);
-		if(article.getMemberId()==(int) httpsession.getAttribute("loginedMemberId")) {
+		if (article.getMemberId() == (int) httpSession.getAttribute("loginedMemberId")) {
 
 			model.addAttribute("article", article);
 			return "usr/article/modify";
-			} else {
-				return String.format("<script>alert('권한이 없습니다..'); location.replace('list');</script>");
-			}
+		} else {
+			return String.format("<script>alert('권한이 없습니다..'); location.replace('list');</script>");
+		}
 
 	}
 
-	@RequestMapping("/usr/article/doModify")	
+	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
-public  String doModify(Model model, int id, String title, String body) {
-	
+	public String doModify(Model model, int id, String title, String body) {
+
 		articleService.modifyArticle(id, title, body);
 
 		return String.format("<script>alert('수정되었습니다.'); location.replace('list');</script>");
-	
+
 	}
+
 	@RequestMapping("/usr/article/delete")
 	@ResponseBody
 	public String doDelete(Model model, HttpSession httpSession, int id) {
 
-		boolean isLogined = false;
+		articleService.loginCheck(httpSession);
 
-		if (httpSession.getAttribute("loginedMemberId") != null) {
-			isLogined = true;
-		} 
-		if(isLogined==false) {
-			return Ut.jsHistoryBack("F-A", "로그인 후 이용해주세요.");
-		}
-		
+//		if (isLogined == false) {
+//			return Ut.jsHistoryBack("F-A", "로그인 후 이용해주세요.");
+//		}
+
 		Article article = articleService.getArticle(id);
 		if (article == null) {
 			return Ut.jsHistoryBack("F-D", id + "번 글은 존재하지 않습니다.");
 		}
-		
+
 		if (article.getMemberId() == (int) httpSession.getAttribute("loginedMemberId")) {
 			articleService.deleteArticle(id);
 			model.addAttribute("article", article);
-			return Ut.jsReplace(Ut.f("삭제되었습니다.", id), "../article/list");
+			return  String.format("<script>alert('삭제되었습니다.'); location.replace('list');</script>");
 		} else {
 			return Ut.jsHistoryBack("F-C", "권한이 없습니다.");
 		}
@@ -80,18 +75,13 @@ public  String doModify(Model model, int id, String title, String body) {
 
 	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody
-	public ResultData<Article> doWrite(HttpSession httpsession, String title, String body) {
-
-		boolean isLogined = false;
-		int loginedMemberId = 0;
-
-		if (httpsession.getAttribute("loginedMemberId") != null) {
-			isLogined = true;
-			loginedMemberId = (int) httpsession.getAttribute("loginedMemberId");
-		}
-		if (isLogined == false) {
-			return ResultData.from("F-A", "로그인 후 이용해주세요");
-		}
+	public ResultData<Article> doWrite(HttpSession httpSession, String title, String body) {
+		int loginedMemberId = articleService.loginCheck(httpSession);
+		articleService.loginCheck(httpSession);
+		
+//		if (isLogined == false) {
+//			return ResultData.from("F-A", "로그인 후 이용해주세요");
+//		}
 
 		if (Ut.empty(title)) {
 			return ResultData.from("F-1", "제목을 입력해주세요");
@@ -119,15 +109,9 @@ public  String doModify(Model model, int id, String title, String body) {
 	}
 
 	@RequestMapping("/usr/article/detail")
-	public String getArticle(Model model, HttpSession httpsession, int id) {
-		boolean isLogined = false;
-		int loginedMemberId = 0;
-
-		if (httpsession.getAttribute("loginedMemberId") != null) {
-			isLogined = true;
-			loginedMemberId = (int) httpsession.getAttribute("loginedMemberId");
-		}
-
+	public String getArticle(Model model, HttpSession httpSession, int id) {
+		int loginedMemberId = articleService.loginCheck(httpSession);
+		
 		Article article = articleService.getArticle(id);
 
 		if (article == null) {

@@ -3,6 +3,8 @@ package com.KoreaIT.ksh.demo.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -58,6 +60,20 @@ public class ArticleService {
 			return ResultData.from("F-2", Ut.f("해당 글에 대한 권한이 없습니다"));
 		}
 		return ResultData.from("S-1", "수정 가능");
+	}
+
+	public int loginCheck(HttpSession httpSession) {
+		boolean isLogined = false;
+		int loginedMemberId = 0;
+
+		if (httpSession.getAttribute("loginedMemberId") != null) {
+			isLogined = true;
+			loginedMemberId = (int) httpSession.getAttribute("loginedMemberId");
+		}
+		
+		
+		return loginedMemberId;
+		
 	}
 
 }
