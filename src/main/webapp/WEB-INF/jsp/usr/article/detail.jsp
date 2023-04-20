@@ -1,11 +1,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<%@ page import="com.KoreaIT.ksh.demo.vo.Article"%>
 <c:set var="pageTitle" value="DETAIL" />
 <%@ include file="../common/head.jspf"%>
 
 <%
-boolean isLogined = (boolean) request.getAttribute("isLogined");
+Article article = (Article) request.getAttribute("article");
+int loginedMemberId = (int) request.getAttribute("loginedMemberId");
 %>
 <section class="mt-10 text-xl">
 		<div class="mx-auto">
@@ -45,17 +46,18 @@ boolean isLogined = (boolean) request.getAttribute("isLogined");
 		</div>
 		<div class="btns">
 				<%
-				if (!isLogined) {
+				if (article.getMemberId()!=loginedMemberId) {
 				%>
 				<button type="button" onclick="history.back()">뒤로가기</button>
 				<%
 				}
 				%>
+	
 				<%
-				if (isLogined) {
+				if (article.getMemberId()==loginedMemberId) {
 				%>
 				<button type="button" onclick="history.back()">뒤로가기</button>
-				<a href="modify?id=${article.id }">수정</a>
+				<a onclick="if(confirm('정말 수정하시겠습니까?') == false) return false;" href="modify?id=${article.id }">수정</a>
 				<a onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;"href="delete?id=${article.id }">삭제</a>
 				<%
 				}
