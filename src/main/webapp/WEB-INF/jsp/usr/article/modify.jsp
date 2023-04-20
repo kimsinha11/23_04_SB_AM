@@ -13,14 +13,14 @@ Article article = (Article) request.getAttribute("article");
 </h1>
 
 
-<form method="post" action="modify">
+<form method="post" action="doModify">
 		<div>
 				번호 :
 				<input value="${article.id }" type="text" name="id" />
 		</div>
 		<div>
-				수정날짜 :
-				${article.updateDate }
+				작성날짜 :
+				${article.regDate }
 		</div>
 		<div>
 				제목 :
@@ -30,7 +30,7 @@ Article article = (Article) request.getAttribute("article");
 				내용 :
 				<textarea type="text" name="body" placeholder="내용을 입력해주세요">${article.body }</textarea>
 		</div>
-		<a href="modify?id=${article.id }">수정</a>
+		<button type="submit">수정</button>
 		
 </form>
 

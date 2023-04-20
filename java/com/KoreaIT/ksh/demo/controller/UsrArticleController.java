@@ -1,10 +1,7 @@
 package com.KoreaIT.ksh.demo.controller;
 
-import java.sql.Connection;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +14,6 @@ import com.KoreaIT.ksh.demo.service.ArticleService;
 import com.KoreaIT.ksh.demo.util.Ut;
 import com.KoreaIT.ksh.demo.vo.Article;
 import com.KoreaIT.ksh.demo.vo.ResultData;
-import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 
 @Controller
 public class UsrArticleController {
@@ -27,17 +23,14 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/modify")
 
-public String doModify(Model model, HttpSession httpsession, int id, String title, String body) {
+public String modify(Model model, HttpSession httpsession, int id, String title, String body) {
 		
 		boolean isLogined = false;
 	
 		if (httpsession.getAttribute("loginedMemberId") != null) {
 			isLogined = true;
 		}
-		if (isLogined == false) {
-			return String.format("<script>alert('로그인 후 이용해주세요'); location.replace('list');</script>");
-		}
-
+	
 		Article article = articleService.getArticle(id);
 		if(article.getMemberId()==(int) httpsession.getAttribute("loginedMemberId")) {
 
@@ -50,6 +43,15 @@ public String doModify(Model model, HttpSession httpsession, int id, String titl
 
 	}
 
+	@RequestMapping("/usr/article/doModify")	
+	@ResponseBody
+public  String doModify(Model model, int id, String title, String body) {
+	
+		articleService.modifyArticle(id, title, body);
+
+		return String.format("<script>alert('수정되었습니다.'); location.replace('list');</script>");
+	
+	}
 	@RequestMapping("/usr/article/delete")
 	@ResponseBody
 	public String doDelete(Model model, HttpSession httpSession, int id) {
@@ -59,16 +61,11 @@ public String doModify(Model model, HttpSession httpsession, int id, String titl
 		if (httpSession.getAttribute("loginedMemberId") != null) {
 			isLogined = true;
 
-		}
-		if (isLogined == false) {
-			return String.format("<script>alert('로그인 후 이용해주세요.'); location.replace('../article/detail');</script>");
-		}
-
+		} 
+	
 		Article article = articleService.getArticle(id);
 		if (article.getMemberId() == (int) httpSession.getAttribute("loginedMemberId")) {
-
 			articleService.deleteArticle(id);
-
 			model.addAttribute("article", article);
 			return String.format("<script>alert('삭제되었습니다.'); location.replace('list');</script>");
 		} else {
