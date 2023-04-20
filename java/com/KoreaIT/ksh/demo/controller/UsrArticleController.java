@@ -77,8 +77,12 @@ public class UsrArticleController {
 	@ResponseBody
 	public String doWrite(Model model, int id, String title, String body) {
 
-		articleService.modifyArticle(id, title, body);
+		ResultData<Integer> writeArticleRd = articleService.writeArticle(title, body, rq.getLoginedMemberId());
 
+		int id = (int) writeArticleRd.getData1();
+
+		Article article = articleService.getArticle(id);
+		ResultData.newData(writeArticleRd, "article", article);
 		return String.format("<script>alert('작성되었습니다.'); location.replace('list');</script>");
 
 	}
@@ -112,12 +116,7 @@ public class UsrArticleController {
 			return Ut.jsHistoryBack("F-A", "내용을 입력해주세요");
 		}
 
-		ResultData<Integer> writeArticleRd = articleService.writeArticle(title, body, rq.getLoginedMemberId());
-
-		int id = (int) writeArticleRd.getData1();
-
-		Article article = articleService.getArticle(id);
-		ResultData.newData(writeArticleRd, "article", article);
+	
 		return "usr/article/write";
 	}
 
