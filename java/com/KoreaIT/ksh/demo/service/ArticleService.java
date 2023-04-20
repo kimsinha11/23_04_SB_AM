@@ -62,18 +62,6 @@ public class ArticleService {
 		return ResultData.from("S-1", "수정 가능");
 	}
 
-	public int loginCheck(HttpSession httpSession) {
-		boolean isLogined = false;
-		int loginedMemberId = 0;
 
-		if (httpSession.getAttribute("loginedMemberId") != null) {
-			isLogined = true;
-			loginedMemberId = (int) httpSession.getAttribute("loginedMemberId");
-		}
-		
-		
-		return loginedMemberId;
-		
-	}
 
 }

@@ -2,6 +2,7 @@ package com.KoreaIT.ksh.demo.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import com.KoreaIT.ksh.demo.service.ArticleService;
 import com.KoreaIT.ksh.demo.util.Ut;
 import com.KoreaIT.ksh.demo.vo.Article;
 import com.KoreaIT.ksh.demo.vo.ResultData;
+import com.KoreaIT.ksh.demo.vo.Rq;
 
 @Controller
 public class UsrArticleController {
@@ -24,12 +26,11 @@ public class UsrArticleController {
 	
 	@RequestMapping("/usr/article/modify")
 
-	public String modify(Model model, HttpSession httpSession, int id, String title, String body) {
-		articleService.loginCheck(httpSession);
-		
+	public String modify(Model model, HttpServletRequest req, int id, String title, String body) {
+		Rq rq = new Rq(req);
 
 		Article article = articleService.getArticle(id);
-		if (article.getMemberId() == (int) httpSession.getAttribute("loginedMemberId")) {
+		if (article.getMemberId() == rq.getLoginedMemberId()) {
 
 			model.addAttribute("article", article);
 			return "usr/article/modify";
@@ -51,20 +52,19 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/delete")
 	@ResponseBody
-	public String doDelete(Model model, HttpSession httpSession, int id) {
+	public String doDelete(Model model, HttpServletRequest req, int id) {
+		Rq rq = new Rq(req);
 
-		articleService.loginCheck(httpSession);
-
-//		if (isLogined == false) {
-//			return Ut.jsHistoryBack("F-A", "로그인 후 이용해주세요.");
-//		}
+		if (rq.isLogined() == false) {
+			return Ut.jsHistoryBack("F-A", "로그인 후 이용해주세요.");
+		}
 
 		Article article = articleService.getArticle(id);
 		if (article == null) {
 			return Ut.jsHistoryBack("F-D", id + "번 글은 존재하지 않습니다.");
 		}
 
-		if (article.getMemberId() == (int) httpSession.getAttribute("loginedMemberId")) {
+		if (article.getMemberId() == rq.getLoginedMemberId()) {
 			articleService.deleteArticle(id);
 			model.addAttribute("article", article);
 			return  String.format("<script>alert('삭제되었습니다.'); location.replace('list');</script>");
@@ -75,13 +75,13 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody
-	public ResultData<Article> doWrite(HttpSession httpSession, String title, String body) {
-		int loginedMemberId = articleService.loginCheck(httpSession);
-		articleService.loginCheck(httpSession);
-		
-//		if (isLogined == false) {
-//			return ResultData.from("F-A", "로그인 후 이용해주세요");
-//		}
+	public ResultData<Article> doWrite(HttpServletRequest req, String title, String body) {
+
+
+		Rq rq = new Rq(req);
+		if (rq.isLogined() == false) {
+			return ResultData.from("F-1", "로그인 후 이용해주세요");
+		}
 
 		if (Ut.empty(title)) {
 			return ResultData.from("F-1", "제목을 입력해주세요");
@@ -90,7 +90,7 @@ public class UsrArticleController {
 			return ResultData.from("F-2", "내용을 입력해주세요");
 		}
 
-		ResultData<Integer> writeArticleRd = articleService.writeArticle(title, body, loginedMemberId);
+		ResultData<Integer> writeArticleRd = articleService.writeArticle(title, body, rq.getLoginedMemberId());
 
 		int id = (int) writeArticleRd.getData1();
 
@@ -109,8 +109,9 @@ public class UsrArticleController {
 	}
 
 	@RequestMapping("/usr/article/detail")
-	public String getArticle(Model model, HttpSession httpSession, int id) {
-		int loginedMemberId = articleService.loginCheck(httpSession);
+	public String getArticle(Model model, HttpServletRequest req, int id) {
+		Rq rq = new Rq(req);
+
 		
 		Article article = articleService.getArticle(id);
 
@@ -119,7 +120,7 @@ public class UsrArticleController {
 		}
 
 		model.addAttribute("article", article);
-		model.addAttribute("loginedMemberId", loginedMemberId);
+		model.addAttribute("loginedMemberId", rq.getLoginedMemberId());
 
 		return "usr/article/detail";
 	}
