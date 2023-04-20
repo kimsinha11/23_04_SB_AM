@@ -10,24 +10,36 @@
 				<thead>
 						<tr>
 								<th>번호</th>
-								<th>날짜</th>
-								<th>제목</th>
-								<th>내용</th>
-								<th>작성자</th>
-						</tr>
-				</thead>
-				<tbody>
-				
-						<tr>
 								<th>${article.id }</th>
+						</tr>	
+						<tr>	
+								<th>작성날짜</th>
 								<th>${article.regDate.substring(0,10) }</th>
-								<th>${article.title }</th>
-								<th>${article.body }</th>
-								<th>${article.name }</th>
 						</tr>
+						<tr>	
+								<th>수정날짜</th>
+								<th>${article.updateDate.substring(0,10) }</th>
+						</tr>
+						<tr>
+								<th>작성자</th>
+									<th>${article.name }</th>
+						</tr>
+						<tr>
+								<th>제목</th>
+								<th>${article.title }</th>
+						</tr>
+						<tr>
+								<th>내용</th>
+								<th>${article.body }</th>
+						</tr>
+								
 						
-				</tbody>
+				</thead>
+			
 		</table>
 
+</div>
+<div class="btns">
+<button type="button" onclick="history.back()">뒤로가기</button>
 </div>
 </section>

@@ -84,24 +84,36 @@ public class UsrArticleController {
 		}
 	}
 
+
 	@RequestMapping("/usr/article/doWrite")
-	public String doWrite(Model model, HttpSession httpSession,String title, String body) {
+	@ResponseBody
+	public ResultData<Article> doWrite(HttpSession httpsession,String title, String body) {
 		
 		boolean isLogined = false;
 		int loginedMemberId =0 ;
 		
-		if (httpSession.getAttribute("loginedMemberId") != null) {
+		if (httpsession.getAttribute("loginedMemberId") != null) {
 			isLogined = true;
-			loginedMemberId = (int) httpSession.getAttribute("loginedMemberId");
+			loginedMemberId = (int) httpsession.getAttribute("loginedMemberId");
+		}
+		if (isLogined == false) {
+			return ResultData.from("F-A", "로그인 후 이용해주세요");
 		}
 		
+		if (Ut.empty(title)) {
+			return ResultData.from("F-1", "제목을 입력해주세요");
+		}
+		if (Ut.empty(body)) {
+			return ResultData.from("F-2", "내용을 입력해주세요");
+		}
+
 		ResultData<Integer> writeArticleRd = articleService.writeArticle(title, body, loginedMemberId);
 
 		int id = (int) writeArticleRd.getData1();
 
 		Article article = articleService.getArticle(id);
-		
-		return id + "번글이 작성되었습니다.";
+
+		return ResultData.newData(writeArticleRd,"article", article);
 	}
 
 	@RequestMapping("/usr/article/list")

@@ -17,18 +17,22 @@
 				</thead>
 				<tbody>
 						<c:forEach var="article" items="${articles }">
-								<tr>
-										<th>${article.id }</th>
-										<th>${article.regDate.substring(0,10) }</th>
-										<th>
-												<a href="detail?id=${article.id }">${article.title }</a>
-										</th>
-										<th>${article.name }</th>
-								</tr>
-						</c:forEach>
-				</tbody>
+					<tr>
+						<th>${article.id }</th>
+						<th>${article.regDate.substring(0,10) }</th>
+						<th class ="title"><a href="detail?id=${article.id }">${article.title }</a>
+						</th>
+						<th>${article.name }</th>
+					</tr>
+				</c:forEach>
+			</tbody>
 		</table>
-		</div>
+<style>
+	.title:hover {
+		background-color: gray;
+		color: pink;
+	}
+</style>
+	</div>
 </section>
-
 
