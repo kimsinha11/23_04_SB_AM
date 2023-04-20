@@ -72,22 +72,44 @@ public class UsrArticleController {
 			return Ut.jsHistoryBack("F-C", "권한이 없습니다.");
 		}
 	}
-
+	
 	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody
-	public ResultData<Article> doWrite(HttpServletRequest req, String title, String body) {
+	public String doWrite(Model model, int id, String title, String body) {
+
+		articleService.modifyArticle(id, title, body);
+
+		return String.format("<script>alert('작성되었습니다.'); location.replace('list');</script>");
+
+	}
+//	public String modify(Model model, HttpServletRequest req, int id, String title, String body) {
+//		Rq rq = new Rq(req);
+//
+//		Article article = articleService.getArticle(id);
+//		if (article.getMemberId() == rq.getLoginedMemberId()) {
+//
+//			model.addAttribute("article", article);
+//			return "usr/article/modify";
+//		} else {
+//			return String.format("<script>alert('권한이 없습니다..'); location.replace('list');</script>");
+//		}
+//
+//	}
+	@RequestMapping("/usr/article/write")
+	@ResponseBody
+	public String write(Model model, HttpServletRequest req, String title, String body) {
 
 
 		Rq rq = new Rq(req);
 		if (rq.isLogined() == false) {
-			return ResultData.from("F-1", "로그인 후 이용해주세요");
+			return Ut.jsHistoryBack("F-A", "로그인 후 이용해주세요.");
 		}
 
 		if (Ut.empty(title)) {
-			return ResultData.from("F-1", "제목을 입력해주세요");
+			return Ut.jsHistoryBack("F-A", "제목을 입력해주세요.");
 		}
 		if (Ut.empty(body)) {
-			return ResultData.from("F-2", "내용을 입력해주세요");
+			return Ut.jsHistoryBack("F-A", "내용을 입력해주세요");
 		}
 
 		ResultData<Integer> writeArticleRd = articleService.writeArticle(title, body, rq.getLoginedMemberId());
@@ -95,8 +117,8 @@ public class UsrArticleController {
 		int id = (int) writeArticleRd.getData1();
 
 		Article article = articleService.getArticle(id);
-
-		return ResultData.newData(writeArticleRd, "article", article);
+		ResultData.newData(writeArticleRd, "article", article);
+		return "usr/article/write";
 	}
 
 	@RequestMapping("/usr/article/list")
