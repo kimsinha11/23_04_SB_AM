@@ -34,7 +34,6 @@ public String modify(Model model, HttpSession httpsession, int id, String title,
 		Article article = articleService.getArticle(id);
 		if(article.getMemberId()==(int) httpsession.getAttribute("loginedMemberId")) {
 
-			articleService.modifyArticle(id, title, body);
 			model.addAttribute("article", article);
 			return "usr/article/modify";
 			} else {
@@ -60,16 +59,22 @@ public  String doModify(Model model, int id, String title, String body) {
 
 		if (httpSession.getAttribute("loginedMemberId") != null) {
 			isLogined = true;
-
 		} 
-	
+		if(isLogined==false) {
+			return Ut.jsHistoryBack("F-A", "로그인 후 이용해주세요.");
+		}
+		
 		Article article = articleService.getArticle(id);
+		if (article == null) {
+			return Ut.jsHistoryBack("F-D", id + "번 글은 존재하지 않습니다.");
+		}
+		
 		if (article.getMemberId() == (int) httpSession.getAttribute("loginedMemberId")) {
 			articleService.deleteArticle(id);
 			model.addAttribute("article", article);
-			return String.format("<script>alert('삭제되었습니다.'); location.replace('list');</script>");
+			return Ut.jsReplace(Ut.f("삭제되었습니다.", id), "../article/list");
 		} else {
-			return String.format("<script>alert('권한이 없습니다..'); location.replace('list');</script>");
+			return Ut.jsHistoryBack("F-C", "권한이 없습니다.");
 		}
 	}
 

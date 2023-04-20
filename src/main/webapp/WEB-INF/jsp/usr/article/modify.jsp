@@ -28,7 +28,7 @@ Article article = (Article) request.getAttribute("article");
 		</div>
 		<div>
 				내용 :
-				<textarea type="text" name="body" placeholder="내용을 입력해주세요">${article.body }</textarea>
+				<input value="${article.body }" type="text" name="body" placeholder="내용을 입력해주세요">
 		</div>
 		<button type="submit">수정</button>
 		
