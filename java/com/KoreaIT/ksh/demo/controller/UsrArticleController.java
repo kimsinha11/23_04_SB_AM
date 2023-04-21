@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.KoreaIT.ksh.demo.service.ArticleService;
 import com.KoreaIT.ksh.demo.util.Ut;
 import com.KoreaIT.ksh.demo.vo.Article;
-import com.KoreaIT.ksh.demo.vo.ResultData;
 import com.KoreaIT.ksh.demo.vo.Rq;
 
 @Controller
@@ -27,7 +26,8 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/modify")
 
 	public String modify(Model model, HttpServletRequest req, int id, String title, String body) {
-		Rq rq = new Rq(req);
+		Rq rq = (Rq) req.getAttribute("rq");
+				
 		if (rq.isLogined() == false) {
 			return Ut.jsHistoryBack("F-A", "로그인 후 이용해주세요.");
 		}
@@ -62,8 +62,8 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody
 	public String doWrite(HttpServletRequest req, HttpSession httpSession, String title, String body) {
-		Rq rq = new Rq(req);
 	
+		Rq rq = (Rq) req.getAttribute("rq");
 		if (rq.isLogined() == false) {
 			return String.format("<script>alert('로그인 후 이용해 주세요..'); location.replace('list');</script>");
 
@@ -85,8 +85,8 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/delete")
 	@ResponseBody
 	public String doDelete(Model model, HttpServletRequest req, int id) {
-		Rq rq = new Rq(req);
 
+		Rq rq = (Rq) req.getAttribute("rq");
 		if (rq.isLogined() == false) {
 			return Ut.jsHistoryBack("F-A", "로그인 후 이용해주세요.");
 		}
@@ -118,8 +118,8 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/detail")
 	public String getArticle(Model model, HttpServletRequest req, int id) {
-		Rq rq = new Rq(req);
-
+		
+		Rq rq = (Rq) req.getAttribute("rq");
 		
 		Article article = articleService.getArticle(id);
 
