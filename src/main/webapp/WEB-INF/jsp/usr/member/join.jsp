@@ -37,6 +37,7 @@
 	</div>
 
 <br />
-	<button type="submit"> 회원가입</button>
+	<button style="display: inline; background-color: lightgray" type="submit"> 회원가입</button>
+	<a style="display: inline; padding: 2px; background-color: lightgray" href="/usr/member/login">로그인</a>
 </div>
 </form>

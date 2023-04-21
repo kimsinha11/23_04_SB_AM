@@ -10,7 +10,7 @@ int loginedMemberId = (int) request.getAttribute("loginedMemberId");
 %>
 <section class="mt-10 text-xl">
 		<div class="mx-auto">
-				<table class="table-box-type-1" style="border-collaspe: collaspe; width: 700px; background-color: lightblue;"
+				<table class="table-box-type-1" style="border-collaspe: collaspe; width: 700px; background-color: pink;"
 						border=2px>
 						<thead>
 								<tr>

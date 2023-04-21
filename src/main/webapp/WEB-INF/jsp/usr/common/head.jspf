@@ -21,7 +21,7 @@ boolean isLogined = rq.isLogined();
 <script src="/resource/common.js" defer="defer"></script>
 </head>
 <body>
-		<h1 style="font-size: 55px;">${pageTitle  }</h1>
+		<h1 style="font-size: 55px; text-align: center; background-color: skyblue">${pageTitle  }</h1>
 
 		<div class="h-10 flex mx-auto text-3xl ">
 				<a href="/">로고</a>
@@ -32,6 +32,7 @@ boolean isLogined = rq.isLogined();
 				<div style="border: 1px solid black; display: inline-block; width: 10%; text-align: center;">
 						<a style="display: block;" href="/usr/article/write">글쓰기</a>
 				</div>
+				
 				<%
 				if (!isLogined) {
 				%>
