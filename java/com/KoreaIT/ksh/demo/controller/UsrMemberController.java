@@ -26,18 +26,15 @@ public class UsrMemberController {
 
 	public String login(HttpServletRequest req, Model model, String title, String body) {
 		Rq rq = (Rq) req.getAttribute("rq");
-		if (rq.isLogined()) {
-			return Ut.jsHistoryBack("F-5", "이미 로그인 상태입니다.");
-		}
+		
 		return "usr/member/login";
 	}
 	
 	@RequestMapping("/usr/member/doLogin")
 	@ResponseBody
-	public String doLogin(HttpSession httpSession, String loginId, String loginPw) {
-
+	public String doLogin(HttpServletRequest req,HttpSession httpSession, String loginId, String loginPw) {
+		Rq rq = (Rq) req.getAttribute("rq");
 		
-
 		if (Ut.empty(loginId)) {
 			return Ut.jsHistoryBack("F-3", "아이디를 입력해주세요.");
 		}
@@ -60,24 +57,16 @@ public class UsrMemberController {
 		return String.format("<script>alert('로그인 성공.'); location.replace('../article/list');</script>");
 	}
 	
-	@RequestMapping("/usr/member/doLogout")
+	@RequestMapping("/usr/member/logout")
 	@ResponseBody
-	public ResultData doLogout(HttpSession httpSession) {
+	public String doLogout(HttpServletRequest req, HttpSession httpSession) {
 
-		boolean isLogined = false;
-
-		if (httpSession.getAttribute("loginedMemberId") == null) {
-			isLogined = true;
-		}
-
-		if (isLogined) {
-			return ResultData.from("F-1", "이미 로그아웃 상태입니다");
-		}
-
+		Rq rq = (Rq) req.getAttribute("rq");
+		
 		
 		httpSession.removeAttribute("loginedMemberId");
 
-		return ResultData.from("S-1", "로그아웃 되었습니다");
+		return String.format("<script>alert('로그아웃 되었습니다.'); location.replace('../article/list');</script>");
 	}
 
 	@RequestMapping("/usr/member/doJoin")
