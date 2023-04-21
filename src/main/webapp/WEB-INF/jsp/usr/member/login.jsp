@@ -9,15 +9,15 @@
 <h1 style="text-align: center; padding: 70px 20px 0;">로그인</h1>
 
 
-<form style="text-align: center;" method="post" action="doJoin">
-<div  style="display: inline-block; text-align:left;">
+<form style="text-align: center;" method="post" action="doLogin">
+<div  style="display: inline-block;  border: 2px solid black; padding: 17px; text-align:left;">
 
 	<div>
-		아이디 :<input style=" border: 1px solid black;" value="" type="text" name="title"
+		아이디 :<input style=" border: 1px solid black;" type="text" name="loginId"
 			placeholder="아이디를 입력해주세요" />
 	</div>
 	<div>
-		비밀번호 : <input style=" border: 1px solid black;" value="" type="text" name="title"
+		비밀번호 : <input style=" border: 1px solid black;" type="text" name="loginPw"
 			placeholder="비밀번호를 입력해주세요" />
 	</div>
 

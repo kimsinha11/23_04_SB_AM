@@ -23,8 +23,7 @@ public class UsrMemberController {
 	private MemberService memberService;
 
 	@RequestMapping("/usr/member/login")
-
-	public String login(HttpServletRequest req, Model model, String title, String body) {
+	public String login(HttpServletRequest req) {
 		Rq rq = (Rq) req.getAttribute("rq");
 		
 		return "usr/member/login";
@@ -35,6 +34,9 @@ public class UsrMemberController {
 	public String doLogin(HttpServletRequest req,HttpSession httpSession, String loginId, String loginPw) {
 		Rq rq = (Rq) req.getAttribute("rq");
 		
+		if (rq.isLogined()) {
+			return Ut.jsHistoryBack("F-A", "이미 로그인 상태입니다.");
+		}
 		if (Ut.empty(loginId)) {
 			return Ut.jsHistoryBack("F-3", "아이디를 입력해주세요.");
 		}
@@ -70,9 +72,7 @@ public class UsrMemberController {
 	}
 	
 	@RequestMapping("/usr/member/join")
-
-	public String join(HttpServletRequest req, Model model, String loginId, String loginPw, String name, String nickname, String cellphoneNum,
-			String email) {
+	public String join(HttpServletRequest req) {
 		Rq rq = (Rq) req.getAttribute("rq");
 		
 		return "usr/member/join";
