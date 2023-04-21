@@ -27,7 +27,7 @@
 				<a style="display: block;" href="/usr/article/write">글쓰기</a>
 		</div>
 		<div style="border: 1px solid black; display: inline-block; width: 10%; text-align: center;">
-				<a style="display: block;" href="/usr/member/doLogin">로그인</a>
+				<a style="display: block;" href="/usr/member/login">로그인</a>
 		</div>
 		<div style="border: 1px solid black; display: inline-block; width: 10%; text-align: center;">
 				<a style="display: block;" href="/usr/article/list">리스트</a>

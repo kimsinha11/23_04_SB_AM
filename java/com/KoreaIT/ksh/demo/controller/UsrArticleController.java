@@ -28,9 +28,9 @@ public class UsrArticleController {
 	public String modify(Model model, HttpServletRequest req, int id, String title, String body) {
 		Rq rq = (Rq) req.getAttribute("rq");
 				
-		if (rq.isLogined() == false) {
-			return Ut.jsHistoryBack("F-A", "로그인 후 이용해주세요.");
-		}
+//		if (rq.isLogined() == false) {
+//			return Ut.jsHistoryBack("F-A", "로그인 후 이용해주세요.");
+//		}
 
 		Article article = articleService.getArticle(id);
 		if (article.getMemberId() == rq.getLoginedMemberId()) {
