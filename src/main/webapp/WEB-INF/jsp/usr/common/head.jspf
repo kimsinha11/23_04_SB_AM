@@ -13,6 +13,8 @@ boolean isLogined = rq.isLogined();
 <title>${pageTitle  }</title>
 <!-- 테일윈드 불러오기 -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" />
+<!-- 데이지 UI -->
+<link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.5/dist/full.css" rel="stylesheet" type="text/css" />
 <!-- 폰트어썸 불러오기 -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
 <!-- 제이쿼리 불러오기 -->
@@ -21,25 +23,26 @@ boolean isLogined = rq.isLogined();
 <script src="/resource/common.js" defer="defer"></script>
 </head>
 <body>
-		<h1 style="font-size: 55px; text-align: center; background-color: skyblue">${pageTitle  }</h1>
+		<h1 style="font-size: 55px; text-align: center; background-color: lightgray">${pageTitle  }</h1>
 
 		<div class="h-10 flex mx-auto text-3xl ">
 				<a href="/">로고</a>
+				
 				<div class="flex-grow"></div>
-				<div style="border: 1px solid black; display: inline-block; width: 10%; text-align: center;">
-						<a style="display: block;" href="../home/main">메인페이지</a>
+				<div style="border: 1px solid black; display: inline-block; width: 7%; text-align: center;">
+						<a style="display: block;" href="../home/main">메인</a>
 				</div>
-				<div style="border: 1px solid black; display: inline-block; width: 10%; text-align: center;">
+				<div style="border: 1px solid black; display: inline-block; width: 7%; text-align: center;">
 						<a style="display: block;" href="/usr/article/write">글쓰기</a>
 				</div>
 				
 				<%
 				if (!isLogined) {
 				%>
-				<div style="border: 1px solid black; display: inline-block; width: 10%; text-align: center;">
+				<div style="border: 1px solid black; display: inline-block; width: 7%; text-align: center;">
 						<a style="display: block;" href="/usr/member/login">로그인</a>
 				</div>
-				<div style="border: 1px solid black; display: inline-block; width: 10%; text-align: center;">
+				<div style="border: 1px solid black; display: inline-block; width: 7%; text-align: center;">
 						<a style="display: block;" href="/usr/member/join">회원가입</a>
 				</div>
 				<%
@@ -48,17 +51,17 @@ boolean isLogined = rq.isLogined();
 				<%
 				if (isLogined) {
 				%>
-				<div style="border: 1px solid black; display: inline-block; width: 10%; text-align: center;">
+				<div style="border: 1px solid black; display: inline-block; width: 7%; text-align: center;">
 						<a style="display: block;" href="/usr/member/logout">로그아웃</a>
 				</div>
 				<%
 				}
 				%>
-				<div style="border: 1px solid black; display: inline-block; width: 10%; text-align: center;">
+				<div style="border: 1px solid black; display: inline-block; width: 7%; text-align: center;">
 						<a style="display: block;" href="/usr/article/list">리스트</a>
 				</div>
 		</div>
 
-		<hr />
+		
 
 		<main>

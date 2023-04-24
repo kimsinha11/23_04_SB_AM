@@ -17,19 +17,19 @@ Article article = (Article) request.getAttribute("article");
 <form style="text-align: center;" method="post" action="doModify">
 <div  style="display: inline-block;  border: 2px solid black; padding: 17px; text-align:left;">
 	<div>
-		번호 : <input value="${article.id }" style=" border: 1px solid black;"  type="hidden" name="id"
+		번호 : <input value="${article.id }" class="input input-bordered w-full max-w-xs"  type="hidden" name="id"
 			/>
 	</div>
 	<div>작성날짜 : ${article.regDate }</div>
 	<div>
-		제목 : <input value="${article.title }" style=" border: 1px solid black;"  type="text" name="title"
+		제목 : <input value="${article.title }" class="input input-bordered w-full max-w-xs"  type="text" name="title"
 			placeholder="제목을 입력해주세요" />
 	</div>
 	<div>
 		내용 :
-		<textarea type="text" style=" border: 1px solid black;"  placeholder="내용을 입력해주세요" name="body" /></textarea>
+		<textarea type="text" class="input input-bordered w-full max-w-xs"  placeholder="내용을 입력해주세요" name="body" /></textarea>
 	</div>
 
-	<button style="display: inline; background-color: lightgray" type="submit"> 수정하기</button>
+	<button class="btn-text-link btn btn-outline btn-xs" style="display: inline" type="submit"> 수정하기</button>
 		</div>
 </form>

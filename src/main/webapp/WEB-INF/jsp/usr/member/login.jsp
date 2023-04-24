@@ -13,16 +13,19 @@
 <div  style="display: inline-block;  border: 2px solid black; padding: 17px; text-align:left;">
 
 	<div>
-		아이디 :<input style=" border: 1px solid black;" type="text" name="loginId"
+		아이디 : <input class="input input-bordered input-sm w-full max-w-xs"  type="text" name="loginId"
 			placeholder="아이디를 입력해주세요" />
 	</div>
 	<div>
-		비밀번호 : <input style=" border: 1px solid black;" type="text" name="loginPw"
+		비밀번호 : <input class="input input-bordered input-sm w-full max-w-xs" type="text" name="loginPw"
 			placeholder="비밀번호를 입력해주세요" />
 	</div>
 
 <br />
-	<button style="display: inline; background-color: lightgray" type="submit"> 로그인</button>
-	<a style="display: inline; padding: 2px; background-color: lightgray" href="/usr/member/join">회원가입</a>
+<div style="text-align: center">
+	<button class="btn-text-link btn btn-outline btn-xs" style="display: inline;" type="submit"> 로그인</button>
+	<a class="btn-text-link btn btn-outline btn-xs" href="/usr/member/join">회원가입</a>
+	
+	</div>
 </div>
 </form>
