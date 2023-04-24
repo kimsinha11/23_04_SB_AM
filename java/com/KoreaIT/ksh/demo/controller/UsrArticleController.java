@@ -39,7 +39,7 @@ public class UsrArticleController {
 			model.addAttribute("article", article);
 			return "usr/article/modify";
 		} else {
-			return String.format("<script>alert('권한이 없습니다..'); location.replace('list');</script>");
+			return rq.jsHistoryBackOnView(Ut.f("권한이없습니다."));
 		}
 
 	}
@@ -53,8 +53,15 @@ public class UsrArticleController {
 	
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
-	public String doModify(int id, String title, String body) {
+	public String doModify(HttpServletRequest req, int id, String title, String body) {
+		Rq rq = (Rq) req.getAttribute("rq");
+		
 
+		Article article = articleService.getArticle(id);
+		
+		if(article == null) {
+			return Ut.jsHistoryBack("F-D", id + "번 글은 존재하지 않습니다.");
+		}
 		articleService.modifyArticle(id, title, body);
 
 		return Ut.jsReplace("S-1", "수정되었습니다", "list");
@@ -77,7 +84,7 @@ public class UsrArticleController {
 		articleService.writeArticle(title, body, rq.getLoginedMemberId());
 		
 		
-		return String.format("<script>alert('작성되었습니다.'); location.replace('list');</script>");
+		return Ut.jsReplace("S-1", "작성완료", "list");
 		
 	}
 	@RequestMapping("/usr/article/delete")
@@ -94,7 +101,7 @@ public class UsrArticleController {
 		if (article.getMemberId() == rq.getLoginedMemberId()) {
 			articleService.deleteArticle(id);
 			model.addAttribute("article", article);
-			return  String.format("<script>alert('삭제되었습니다.'); location.replace('list');</script>");
+			return Ut.jsReplace("S-1", "삭제완료", "list");
 		} else {
 			return Ut.jsHistoryBack("F-C", "권한이 없습니다.");
 		}
@@ -119,7 +126,7 @@ public class UsrArticleController {
 		Article article = articleService.getArticle(id);
 
 		if (article == null) {
-			return id + "번 게시물은 존재하지 않습니다.";
+			return rq.jsHistoryBackOnView(Ut.f("%d번 글은 존재하지 않습니다",id));
 		}
 
 		model.addAttribute("article", article);
