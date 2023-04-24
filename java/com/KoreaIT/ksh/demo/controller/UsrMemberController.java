@@ -31,7 +31,7 @@ public class UsrMemberController {
 	
 	@RequestMapping("/usr/member/doLogin")
 	@ResponseBody
-	public String doLogin(HttpServletRequest req,HttpSession httpSession, String loginId, String loginPw) {
+	public String doLogin(HttpServletRequest req,String loginId, String loginPw) {
 		Rq rq = (Rq) req.getAttribute("rq");
 		
 		if (rq.isLogined()) {
@@ -53,22 +53,24 @@ public class UsrMemberController {
 		if (member.getLoginPw().equals(loginPw) == false) {
 			return Ut.jsHistoryBack("F-4", "비밀번호가 틀렸습니다");
 		}
-
-		httpSession.setAttribute("loginedMemberId", member.getId());
+		
+		rq.login(member);
 
 		return String.format("<script>alert('로그인 성공.'); location.replace('../article/list');</script>");
 	}
 	
 	@RequestMapping("/usr/member/logout")
 	@ResponseBody
-	public String doLogout(HttpServletRequest req, HttpSession httpSession) {
+	public String doLogout(HttpServletRequest req) {
 
 		Rq rq = (Rq) req.getAttribute("rq");
+		if(!rq.isLogined()) {
+			return Ut.jsHistoryBack("F-1", "이미 로그아웃 상태입니다.");
+		}
 		
-		
-		httpSession.removeAttribute("loginedMemberId");
+		rq.logout();
 
-		return String.format("<script>alert('로그아웃 되었습니다.'); location.replace('../article/list');</script>");
+		return Ut.jsReplace("S-1", "로그아웃 되었습니다", "/");
 	}
 	
 	@RequestMapping("/usr/member/join")

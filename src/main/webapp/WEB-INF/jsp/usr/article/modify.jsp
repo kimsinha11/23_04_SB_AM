@@ -17,7 +17,8 @@ Article article = (Article) request.getAttribute("article");
 <form style="text-align: center;" method="post" action="doModify">
 <div  style="display: inline-block;  border: 2px solid black; padding: 17px; text-align:left;">
 	<div>
-		번호 : ${article.id }
+		번호 : <input value="${article.id }" style=" border: 1px solid black;"  type="hidden" name="id"
+			/>
 	</div>
 	<div>작성날짜 : ${article.regDate }</div>
 	<div>

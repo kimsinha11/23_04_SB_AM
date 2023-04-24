@@ -30,6 +30,10 @@ public class UsrArticleController {
 				
 
 		Article article = articleService.getArticle(id);
+		
+		if(article == null) {
+			return rq.jsHistoryBackOnView(Ut.f("%d번 글은 존재하지 않습니다",id));
+		}
 		if (article.getMemberId() == rq.getLoginedMemberId()) {
 
 			model.addAttribute("article", article);
@@ -49,11 +53,11 @@ public class UsrArticleController {
 	
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
-	public String doModify(Model model, int id, String title, String body) {
+	public String doModify(int id, String title, String body) {
 
 		articleService.modifyArticle(id, title, body);
 
-		return String.format("<script>alert('수정되었습니다.'); location.replace('list');</script>");
+		return Ut.jsReplace("S-1", "수정되었습니다", "list");
 
 	}
 
