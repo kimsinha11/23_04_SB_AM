@@ -1,10 +1,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<c:set var="pageTitle" value="ARTICLE LIST" />
+<c:set var="pageTitle" value="${board.code} " />
 <%@ include file="../common/head.jspf"%>
 
-<section class="mt-10 text-l">
+<section class="mt-10 text-xs">
 		<div class="mx-auto overflow-x-auto w-full">
 				<table class="table-box-type-1 table w-full"
 						style="border-collaspe: collaspe; width: 700px; background-color: pink;" border=2px>

@@ -31,6 +31,14 @@ table {
 	margin-right: auto;
 }
 
+body > div> div > ul > li > a{
+	display: none;
+}
+
+body > div > .list:hover >  ul > li > a {
+	display: block;
+}
+
 th {
 	border: 1px solid black;
 	text-align: center;

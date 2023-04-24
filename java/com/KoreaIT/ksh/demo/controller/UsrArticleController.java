@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.KoreaIT.ksh.demo.service.ArticleService;
+import com.KoreaIT.ksh.demo.service.BoardService;
 import com.KoreaIT.ksh.demo.util.Ut;
 import com.KoreaIT.ksh.demo.vo.Article;
+import com.KoreaIT.ksh.demo.vo.Board;
 import com.KoreaIT.ksh.demo.vo.Rq;
 
 @Controller
@@ -21,18 +23,16 @@ public class UsrArticleController {
 
 	@Autowired
 	private ArticleService articleService;
-	
-	
+
 	@RequestMapping("/usr/article/modify")
 
 	public String modify(Model model, HttpServletRequest req, int id, String title, String body) {
 		Rq rq = (Rq) req.getAttribute("rq");
-				
 
 		Article article = articleService.getArticle(id);
-		
-		if(article == null) {
-			return rq.jsHistoryBackOnView(Ut.f("%d번 글은 존재하지 않습니다",id));
+
+		if (article == null) {
+			return rq.jsHistoryBackOnView(Ut.f("%d번 글은 존재하지 않습니다", id));
 		}
 		if (article.getMemberId() == rq.getLoginedMemberId()) {
 
@@ -50,16 +50,15 @@ public class UsrArticleController {
 
 		return "usr/article/write";
 	}
-	
+
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
 	public String doModify(HttpServletRequest req, int id, String title, String body) {
 		Rq rq = (Rq) req.getAttribute("rq");
-		
 
 		Article article = articleService.getArticle(id);
-		
-		if(article == null) {
+
+		if (article == null) {
 			return Ut.jsHistoryBack("F-D", id + "번 글은 존재하지 않습니다.");
 		}
 		articleService.modifyArticle(id, title, body);
@@ -71,10 +70,9 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody
 	public String doWrite(HttpServletRequest req, HttpSession httpSession, String title, String body) {
-	
+
 		Rq rq = (Rq) req.getAttribute("rq");
-	
-		
+
 		if (Ut.empty(title)) {
 			return Ut.jsHistoryBack("F-A", "제목을 입력해주세요.");
 		}
@@ -82,11 +80,11 @@ public class UsrArticleController {
 			return Ut.jsHistoryBack("F-A", "내용을 입력해주세요");
 		}
 		articleService.writeArticle(title, body, rq.getLoginedMemberId());
-		
-		
+
 		return Ut.jsReplace("S-1", "작성완료", "list");
-		
+
 	}
+
 	@RequestMapping("/usr/article/delete")
 	@ResponseBody
 	public String doDelete(Model model, HttpServletRequest req, int id) {
@@ -106,12 +104,20 @@ public class UsrArticleController {
 			return Ut.jsHistoryBack("F-C", "권한이 없습니다.");
 		}
 	}
-	
-
 
 	@RequestMapping("/usr/article/list")
-	public String showList(Model model) {
-		List<Article> articles = articleService.articles();
+	public String showList(HttpServletRequest req, Model model, int boardId) {
+
+		Rq rq = (Rq) req.getAttribute("rq");
+		Board board = BoardService.getBoardById(boardId);
+	
+		if(board == null) {
+			return rq.jsHistoryBackOnView("그런 게시판은 없어");
+		}
+		
+		List<Article> articles = articleService.articles(boardId);
+		
+		model.addAttribute("board", board);
 
 		model.addAttribute("articles", articles);
 
@@ -120,13 +126,13 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/detail")
 	public String getArticle(Model model, HttpServletRequest req, int id) {
-		
+
 		Rq rq = (Rq) req.getAttribute("rq");
-		
+
 		Article article = articleService.getArticle(id);
 
 		if (article == null) {
-			return rq.jsHistoryBackOnView(Ut.f("%d번 글은 존재하지 않습니다",id));
+			return rq.jsHistoryBackOnView(Ut.f("%d번 글은 존재하지 않습니다", id));
 		}
 
 		model.addAttribute("article", article);

@@ -11,7 +11,7 @@ public interface ArticleRepository {
 
 	public void writeArticle(String title, String body, int memberId);
 
-	public List<Article> getArticles();
+	public List<Article> getArticles(int boardId);
 
 	public Article getArticle(int id);
 
