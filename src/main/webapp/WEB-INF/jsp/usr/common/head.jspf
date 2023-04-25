@@ -65,6 +65,7 @@ boolean isLogined = rq.isLogined();
 								<li><a href="/usr/article/list?boardId=3">QnA</a></li>
 							</ul>
 				</div>
+			
 		</div>
 
 

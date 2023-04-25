@@ -16,20 +16,20 @@
 		boardId = #{boardId}
 	</insert>
 
-	<select id="getArticles" resultType="Article">
-		SELECT article.id, article.regDate, article.updateDate, article.title,
-		article.body, article.memberId, article.boardId, board.id, member.name
-		AS 'name'
-		FROM article
-		INNER JOIN `member`
-		ON article.memberId =
-		member.id
-		INNER JOIN board
-		ON article.boardId = board.id
-		WHERE board.id = #{boardId}
-		ORDER BY
-		article.id DESC
-	</select>
+<select id="getArticles" resultType="Article">
+    SELECT article.id, article.regDate, article.updateDate, article.title,
+    article.body, article.memberId, article.boardId, board.id, member.name
+    AS 'name'
+    FROM article
+    INNER JOIN `member`
+    ON article.memberId =
+    member.id
+    INNER JOIN board
+    ON article.boardId = board.id
+    WHERE board.id = #{boardId}
+    ORDER BY article.id DESC
+    LIMIT #{i}, #{itemsPerPage}
+</select>
 
 	<select id="getArticle" resultType="Article">
 		SELECT article.id,

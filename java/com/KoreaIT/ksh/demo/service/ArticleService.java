@@ -51,8 +51,8 @@ public class ArticleService {
 		return ResultData.from("S-1", Ut.f("%d번 글을 수정 했습니다", id), "article", article);
 	}
 
-	public List<Article> articles(int boardId) {
-		return articleRepository.getArticles(boardId);
+	public List<Article> getArticles(int boardId, int i, int itemsPerPage) {
+		return articleRepository.getArticles(boardId, i, itemsPerPage);
 	}
 
 	public ResultData actorCanModify(int loginedMemberId, Article article) {

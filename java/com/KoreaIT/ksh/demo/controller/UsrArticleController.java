@@ -51,6 +51,7 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/write")
 
 	public String write(Model model, String title, String body) {
+	
 
 		return "usr/article/write";
 	}
@@ -107,24 +108,33 @@ public class UsrArticleController {
 	}
 
 	@RequestMapping("/usr/article/list")
-	public String showList(Model model, Integer boardId) {
+	public String showList(Model model, Integer boardId, @RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "10") int itemsPerPage) {
 
-		if(boardId == null) {
-			boardId = 1;
-		}
-		Board board = BoardService.getBoardById(boardId);
-		
-		if(board == null) {
-			return rq.jsHistoryBackOnView("그런 게시판은 없어");
-		}
-		int articlesCount = articleService.getArticlesCount(boardId);
-		List<Article> articles = articleService.articles(boardId);
-		
-		model.addAttribute("board", board);
-		model.addAttribute("articlesCount", articlesCount);
-		model.addAttribute("articles", articles);
+	    if(boardId == null) {
+	        boardId = 1;
+	    }
+	    Board board = BoardService.getBoardById(boardId);
 
-		return "usr/article/list";
+	    if(board == null) {
+	        return rq.jsHistoryBackOnView("그런 게시판은 없어");
+	    }
+
+	    int totalCount = articleService.getArticlesCount(boardId);
+	    int totalPages = (int) Math.ceil((double)totalCount / itemsPerPage);
+	    int lastPageInGroup = (int) Math.min(((pageNum - 1) / 10 * 10 + 10), totalPages);
+	    int itemsInAPage = (pageNum - 1) * itemsPerPage;
+	    List<Article> articles = articleService.getArticles(boardId, itemsInAPage, itemsPerPage);
+
+	    model.addAttribute("board", board);
+
+	    model.addAttribute("articles", articles);
+	    model.addAttribute("totalCount", totalCount);
+	    model.addAttribute("totalPages", totalPages);
+	    model.addAttribute("pageNum", pageNum);
+	    model.addAttribute("itemsPerPage", itemsPerPage);
+	    model.addAttribute("lastPageInGroup", lastPageInGroup);
+
+	    return "usr/article/list";
 	}
   
 	@RequestMapping("/usr/article/detail")
