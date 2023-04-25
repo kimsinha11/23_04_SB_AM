@@ -6,10 +6,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.stereotype.Component;
+
 import com.KoreaIT.ksh.demo.util.Ut;
 
 import lombok.Getter;
 
+@Component
+@Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class Rq {
 	@Getter
 	private boolean isLogined;
@@ -36,7 +42,7 @@ public class Rq {
 		this.isLogined = isLogined;
 		this.loginedMemberId = loginedMemberId;
 		
-		
+		this.req.setAttribute("rq", this);
 	}
 
 	public void printHitoryBackJs(String msg) throws IOException {
@@ -65,7 +71,6 @@ public class Rq {
 	public void login(Member member) {
 		session.setAttribute("loginedMemberId", member.getId());
 
-		
 	}
 
 	public void logout() {
@@ -77,5 +82,9 @@ public class Rq {
 		req.setAttribute("msg", msg);
 		req.setAttribute("historyBack",true);
 		return "usr/common/common";
+	}
+
+	public void initOnBeforeActionInterceptor() {
+	
 	}
 }

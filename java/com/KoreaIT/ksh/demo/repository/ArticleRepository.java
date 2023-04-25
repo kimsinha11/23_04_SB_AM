@@ -10,7 +10,7 @@ import com.KoreaIT.ksh.demo.vo.Article;
 @Mapper
 public interface ArticleRepository {
 
-	public void writeArticle(String title, String body, int memberId);
+	public void writeArticle(String title, String body, int memberId, int boardId);
 
 	public List<Article> getArticles(int boardId);
 

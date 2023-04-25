@@ -1,7 +1,15 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%-- <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>--%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%-- 
+<c:set var="contextPath" value="${pageContext.request.contextPath}"></c:set>
+<c:set var="articles" value="${articles}" />
+<c:set var="articlesCount" value="${articlesCount}" />
+<c:set var="currentPage" value="${page}" />
+<c:set var="totalPage" value="${totalPage}" />
 
 <c:set var="pageTitle" value="${board.code} " />
+--%>
 <%@ include file="../common/head.jspf"%>
 
 <section class="mt-10 text-xs">
