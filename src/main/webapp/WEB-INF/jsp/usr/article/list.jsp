@@ -11,6 +11,7 @@
 						<thead>
 							
 								<tr>
+						<div style="text-align: center; font-size: 20px">${articlesCount }개</div>
 								
 										<th><label>
 												<input type="checkbox" class="checkbox" />

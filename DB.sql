@@ -44,6 +44,14 @@ title = '제목 3',
 `body` = '내용 3',
 memberId= 1;
 
+INSERT INTO article 
+SET regDate = NOW(),
+updateDate = NOW(),
+title = 'QnA',
+`body` = '내용 3',
+memberId= 3,
+boardId = 3;
+
 
 # 회원 테이블 생성
 CREATE TABLE `member`(
@@ -125,6 +133,17 @@ updateDate = NOW(),
 `name` = '질의응답';
 
 
+# 게시물 갯수 늘리기
+INSERT INTO article
+(regDate, updateDate, memberId, boardId, title, `body`)
+SELECT NOW(), NOW(), FLOOR(RAND() * 2) + 2,FLOOR(RAND() * 2) + 1, CONCAT('제목_',RAND()), CONCAT('내용_',RAND())
+FROM article;
+SELECT NOW()
+SELECT FLOOR(RAND()*2) +2
+SELECT RAND()
+;
+
+
 ALTER TABLE article ADD boardId INT(10) UNSIGNED NOT NULL AFTER `memberId`;
 
 UPDATE article SET boardId = 1 WHERE id IN (1,2);
@@ -138,5 +157,16 @@ SELECT * FROM article;
 SELECT * FROM `member`;
 SELECT * FROM board;
 DESC `member`;
+
+
+SELECT article.id, article.regDate, article.updateDate, article.title, article.body, article.memberId, article.boardId, board.id, member.name AS 'name'
+FROM article
+INNER JOIN `member`
+ON article.memberId = member.id
+INNER JOIN board
+ON article.boardId = board.id
+WHERE board.id = 3
+ORDER BY article.id DESC
+
 
 SELECT LAST_INSERT_ID();

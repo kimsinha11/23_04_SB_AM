@@ -106,19 +106,22 @@ public class UsrArticleController {
 	}
 
 	@RequestMapping("/usr/article/list")
-	public String showList(HttpServletRequest req, Model model, int boardId) {
+	public String showList(HttpServletRequest req, Model model,Integer boardId) {
 
 		Rq rq = (Rq) req.getAttribute("rq");
+		if(boardId == null) {
+			boardId = 1;
+		}
 		Board board = BoardService.getBoardById(boardId);
-	
+		
 		if(board == null) {
 			return rq.jsHistoryBackOnView("그런 게시판은 없어");
 		}
-		
+		int articlesCount = articleService.getArticlesCount(boardId);
 		List<Article> articles = articleService.articles(boardId);
 		
 		model.addAttribute("board", board);
-
+		model.addAttribute("articlesCount", articlesCount);
 		model.addAttribute("articles", articles);
 
 		return "usr/article/list";
